@@ -10,10 +10,14 @@ interface SalEntry {
   type: 'good' | 'bad'
 }
 
+const chipGood =
+  'border-[var(--neon-cyan-muted)] bg-[color-mix(in_srgb,var(--neon-cyan)_10%,transparent)] text-[var(--neon-cyan)]'
+const chipBad =
+  'border-[color-mix(in_srgb,#f472b6_40%,transparent)] bg-[color-mix(in_srgb,#f472b6_8%,transparent)] text-[#fda4af]'
+
 export default function SinsalList({ sals }: Props) {
   const items: SalEntry[] = []
 
-  // 길신 (吉神)
   if (sals.cheonul.length > 0) {
     const pos = sals.cheonul.map(i => PILLAR_NAMES[i]).join(',')
     items.push({ label: `천을귀인(${pos})`, type: 'good' })
@@ -35,7 +39,6 @@ export default function SinsalList({ sals }: Props) {
     items.push({ label: `금여록(${pos})`, type: 'good' })
   }
 
-  // 흉신 (凶神)
   if (sals.yangin.length > 0) {
     const pos = sals.yangin.map(i => PILLAR_NAMES[i]).join(',')
     items.push({ label: `양인살(${pos})`, type: 'bad' })
@@ -52,15 +55,13 @@ export default function SinsalList({ sals }: Props) {
 
   return (
     <section>
-      <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">神殺</h3>
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3 font-hanja">神殺</h3>
       <div className="flex flex-wrap gap-2">
         {items.map(item => (
           <span
             key={item.label}
-            className={`text-base px-2 py-0.5 rounded ${
-              item.type === 'good'
-                ? 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400'
-                : 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400'
+            className={`text-sm px-3 py-1 rounded-lg border font-medium ${
+              item.type === 'good' ? chipGood : chipBad
             }`}
           >
             {item.label}

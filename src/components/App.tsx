@@ -6,6 +6,8 @@ import Guide from './Guide.tsx'
 import CopyButton from './CopyButton.tsx'
 import ThemeToggle from './ThemeToggle.tsx'
 import SajuView from './saju/SajuView.tsx'
+import CategoryInterpretationView from './saju/CategoryInterpretationView.tsx'
+import ChatConsultationView from './saju/ChatConsultationView.tsx'
 import ZiweiView from './ziwei/ZiweiView.tsx'
 import NatalView from './natal/NatalView.tsx'
 import { calculateSaju } from '@orrery/core/saju'
@@ -14,10 +16,14 @@ import { calculateNatal } from '@orrery/core/natal'
 import { sajuToText, ziweiToText, natalToText } from '../utils/text-export.ts'
 import type { BirthInput } from '@orrery/core/types'
 
-type Tab = 'saju' | 'ziwei' | 'natal'
+/** 사주 대시보드 내 화면 */
+type SajuScreen = 'summary' | 'interpret' | 'consult' | 'input'
+/** 부가 도구 (기능 유지) */
+type ToolTab = 'saju' | 'ziwei' | 'natal'
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('saju')
+  const [toolTab, setToolTab] = useState<ToolTab>('saju')
+  const [sajuScreen, setSajuScreen] = useState<SajuScreen>('summary')
   const [birthInput, setBirthInput] = useState<BirthInput | null>(null)
   const [profileModalOpen, setProfileModalOpen] = useState(false)
   const [externalFormState, setExternalFormState] = useState<SavedFormState | null>(null)
@@ -26,6 +32,8 @@ export default function App() {
 
   function handleSubmit(input: BirthInput) {
     setBirthInput(input)
+    setToolTab('saju')
+    setSajuScreen('summary')
     requestAnimationFrame(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth' })
     })
@@ -36,39 +44,62 @@ export default function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 relative">
+    <div className="min-h-screen relative text-[var(--text-primary)] bg-[var(--surface-deep)]">
+      {/* 미묘한 그리드 + 그라데이션 */}
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.35] dark:opacity-[0.5]"
+        aria-hidden
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(61, 255, 156, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(92, 225, 230, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '48px 48px',
+        }}
+      />
+      <div
+        className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#0a1628]/90 via-transparent to-[#030712]"
+        aria-hidden
+      />
+
       <ThemeToggle />
       <a
         href="https://github.com/rath/orrery"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed top-0 right-0 z-50"
-        aria-label="View source on GitHub"
+        className="fixed top-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-glow)] bg-[var(--glass-bg)] backdrop-blur-sm text-[var(--text-muted)] hover:border-[var(--neon-primary-muted)] hover:text-[var(--neon-cyan)] transition-all"
+        aria-label="GitHub 저장소"
       >
-        <svg width="60" height="60" viewBox="0 0 250 250" className="fill-gray-700 text-white" aria-hidden="true">
-          <path d="M0 0l115 115h15l12 27 108 108V0z" />
-          <path d="M128.3 109c-14.5-9.3-9.3-19.4-9.3-19.4 3-6.9 1.5-11 1.5-11-1.3-6.6 2.9-2.3 2.9-2.3 3.9 4.6 2.1 11 2.1 11-2.6 10.3 5.1 14.6 8.9 15.9" fill="currentColor" style={{ transformOrigin: '130px 106px' }} />
-          <path d="M115 115c-.1.1 3.7 1.5 4.8.4l13.9-13.8c3.2-2.4 6.2-3.2 8.5-3 -8.4-10.6-14.7-24.2 1.6-40.6 4.7-4.6 10.2-6.8 15.9-7 .6-1.6 3.5-7.4 11.7-10.9 0 0 4.7 2.4 7.4 16.1 4.3 2.4 8.4 5.6 12.1 9.2 3.6 3.6 6.8 7.8 9.2 12.2 13.7 2.6 16.2 7.3 16.2 7.3-3.6 8.2-9.4 11.1-10.9 11.7-.3 5.8-2.4 11.2-7.1 15.9-16.4 16.4-29.4 11.6-36.4 8.8 .2 2.8-1 6.8-5 10.8L141 136.5c-1.2 1.2.6 5.4.8 5.3z" fill="currentColor" />
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
         </svg>
       </a>
-      <main className="max-w-2xl mx-auto px-4 py-6">
-        <div className="text-center mb-6">
-          <p className="text-base text-gray-500 dark:text-gray-400 tracking-wide">
-            서버 없이 브라우저에서 동작하는<br className="sm:hidden" /> <span className="font-medium text-gray-700 dark:text-gray-200">사주팔자 · 자미두수 · 서양 점성술</span> 계산기
+
+      <main className="relative max-w-2xl mx-auto px-4 py-8 sm:py-10">
+        <header className="text-center mb-8 space-y-2">
+          <p className="text-xs font-medium tracking-[0.2em] uppercase text-[var(--neon-cyan)]">
+            혼천의
           </p>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">십신, 대운, 명반, 사화, 출생차트까지 한 번에</p>
-        </div>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
+            사주 명리 대시보드
+          </h1>
+          <p className="text-sm text-[var(--text-muted)] max-w-md mx-auto leading-relaxed">
+            생년월일시를 입력하면 브라우저에서 사주를 계산합니다. 해석·상담 화면은 API 연동을 준비한 자리입니다.
+          </p>
+        </header>
+
         <BirthForm
           ref={birthFormRef}
           onSubmit={handleSubmit}
           externalState={externalFormState}
           onExternalStateConsumed={() => setExternalFormState(null)}
         />
-        <div className="flex justify-end mt-2">
+
+        <div className="flex justify-end mt-3">
           <button
             type="button"
             onClick={() => setProfileModalOpen(true)}
-            className="flex items-center gap-1 text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--neon-cyan)] transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
@@ -78,68 +109,137 @@ export default function App() {
         </div>
 
         {birthInput && (
-          <>
-            {/* 탭 네비게이션 */}
-            <div ref={resultsRef} className="flex items-center border-b border-gray-200 dark:border-gray-700 mt-6 mb-4">
-              <button
-                className={`px-2 sm:px-4 py-2 text-sm sm:text-base font-medium whitespace-nowrap border-b-2 transition-colors ${
-                  tab === 'saju'
-                    ? 'border-gray-800 text-gray-800 dark:border-gray-200 dark:text-gray-200'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                }`}
-                onClick={() => setTab('saju')}
-              >
-                사주팔자
-              </button>
-              <button
-                className={`px-2 sm:px-4 py-2 text-sm sm:text-base font-medium whitespace-nowrap border-b-2 transition-colors ${
-                  tab === 'ziwei'
-                    ? 'border-gray-800 text-gray-800 dark:border-gray-200 dark:text-gray-200'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                }`}
-                onClick={() => setTab('ziwei')}
-              >
-                자미두수
-              </button>
-              <button
-                className={`px-2 sm:px-4 py-2 text-sm sm:text-base font-medium whitespace-nowrap border-b-2 transition-colors ${
-                  tab === 'natal'
-                    ? 'border-gray-800 text-gray-800 dark:border-gray-200 dark:text-gray-200'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                }`}
-                onClick={() => setTab('natal')}
-              >
-                출생차트
-              </button>
-              <div className="ml-auto pb-1">
-                <CopyButton
-                  label={<>AI 해석용<br />전부 복사</>}
-                  getText={async () => {
-                    const saju = calculateSaju(birthInput)
-                    const parts = [sajuToText(saju)]
-                    if (!birthInput.unknownTime) {
-                      const chart = createChart(birthInput.year, birthInput.month, birthInput.day, birthInput.hour, birthInput.minute, birthInput.gender === 'M')
-                      parts.push(ziweiToText(chart))
-                    }
-                    const natal = await calculateNatal(birthInput)
-                    parts.push(natalToText(natal))
-                    return parts.join('\n\n')
-                  }}
-                />
+          <div ref={resultsRef} className="mt-8 space-y-4">
+            {/* 부가 도구: 자미 / 네이탈 (기능 유지) */}
+            <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-between">
+              <div className="flex flex-wrap gap-2 justify-center">
+                {(
+                  [
+                    { id: 'saju' as const, label: '사주' },
+                    { id: 'ziwei' as const, label: '자미두수' },
+                    { id: 'natal' as const, label: '출생차트' },
+                  ] as const
+                ).map(t => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setToolTab(t.id)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all ${
+                      toolTab === t.id
+                        ? 'border-[var(--neon-primary-muted)] bg-[var(--neon-primary-dim)] text-[var(--neon-primary)] shadow-[var(--shadow-glow-soft)]'
+                        : 'border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--border-glow)]'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
               </div>
+              <CopyButton
+                label={<>데이터<br className="sm:hidden" /> 전부 복사</>}
+                getText={async () => {
+                  const saju = calculateSaju(birthInput)
+                  const parts = [sajuToText(saju)]
+                  if (!birthInput.unknownTime) {
+                    const chart = createChart(
+                      birthInput.year,
+                      birthInput.month,
+                      birthInput.day,
+                      birthInput.hour,
+                      birthInput.minute,
+                      birthInput.gender === 'M',
+                    )
+                    parts.push(ziweiToText(chart))
+                  }
+                  const natal = await calculateNatal(birthInput)
+                  parts.push(natalToText(natal))
+                  return parts.join('\n\n')
+                }}
+              />
             </div>
 
-            {tab === 'saju' && <SajuView input={birthInput} />}
-            {tab === 'ziwei' && <ZiweiView input={birthInput} />}
-            {tab === 'natal' && <NatalView input={birthInput} />}
-          </>
+            {toolTab === 'saju' && (
+              <>
+                <nav
+                  className="flex gap-1 p-1 rounded-2xl border border-[var(--border-glow)] bg-[var(--surface-elevated)]/60 backdrop-blur-sm overflow-x-auto"
+                  aria-label="사주 화면"
+                >
+                  {(
+                    [
+                      { id: 'summary' as const, label: '명식 요약' },
+                      { id: 'interpret' as const, label: '카테고리 해석' },
+                      { id: 'consult' as const, label: '상담' },
+                      { id: 'input' as const, label: '생정보' },
+                    ] as const
+                  ).map(s => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setSajuScreen(s.id)}
+                      className={`shrink-0 px-3 sm:px-4 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
+                        sajuScreen === s.id
+                          ? 'bg-[var(--neon-primary-dim)] text-[var(--neon-primary)] border border-[var(--neon-primary-muted)] shadow-[var(--shadow-glow-soft)]'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-transparent'
+                      }`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </nav>
+
+                <div className="panel-neon p-4 sm:p-5 min-h-[200px]">
+                  {sajuScreen === 'summary' && <SajuView input={birthInput} />}
+                  {sajuScreen === 'interpret' && <CategoryInterpretationView input={birthInput} />}
+                  {sajuScreen === 'consult' && <ChatConsultationView input={birthInput} />}
+                  {sajuScreen === 'input' && (
+                    <div className="space-y-3">
+                      <h2 className="text-lg font-semibold text-[var(--text-primary)]">생년정보 수정</h2>
+                      <p className="text-sm text-[var(--text-muted)]">
+                        아래로 스크롤하여 상단 폼에서 날짜·시간·위치를 바꾼 뒤 다시 「명식 계산」을 누르세요.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }}
+                        className="text-sm font-medium px-4 py-2 rounded-xl border border-[var(--neon-primary-muted)] text-[var(--neon-primary)] bg-[var(--neon-primary-dim)] hover:shadow-[var(--shadow-glow-soft)] transition-all"
+                      >
+                        입력 폼으로 이동
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+
+            {toolTab === 'ziwei' && (
+              <div className="panel-neon p-4 sm:p-5">
+                <ZiweiView input={birthInput} />
+              </div>
+            )}
+            {toolTab === 'natal' && (
+              <div className="panel-neon p-4 sm:p-5">
+                <NatalView input={birthInput} />
+              </div>
+            )}
+          </div>
         )}
 
         <Guide />
       </main>
-      <footer className="text-center text-xs text-gray-400 dark:text-gray-500 py-6">
-        <p>&copy; 2026 Jang-Ho Hwang &middot; <a href="https://x.com/xrath" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 dark:hover:text-gray-300">@xrath</a> &middot; <a href="https://x.com/xrath/status/2022548658562937028" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 dark:hover:text-gray-300">소개글</a></p>
+
+      <footer className="relative text-center text-xs text-[var(--text-muted)] py-8 border-t border-[var(--border-subtle)]">
+        <p>
+          &copy; 2026 Jang-Ho Hwang &middot;{' '}
+          <a href="https://x.com/xrath" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--neon-cyan)] transition-colors">
+            @xrath
+          </a>{' '}
+          &middot;{' '}
+          <a href="https://x.com/xrath/status/2022548658562937028" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--neon-cyan)] transition-colors">
+            소개글
+          </a>
+        </p>
       </footer>
+
       <ProfileModal
         open={profileModalOpen}
         onClose={() => setProfileModalOpen(false)}

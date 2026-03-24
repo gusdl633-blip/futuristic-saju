@@ -9,113 +9,131 @@ import {
 } from '../../utils/format.ts'
 
 interface Props {
-  pillars: PillarDetail[]  // [시, 일, 월, 년]
+  pillars: PillarDetail[]
   unknownTime?: boolean
 }
 
 export default function PillarTable({ pillars, unknownTime }: Props) {
   const labels = ['時柱', '日柱', '月柱', '年柱']
+  const muted = 'text-[var(--text-muted)]'
+  const cellMuted = 'text-[var(--text-muted)] opacity-50'
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-center text-base">
         <thead>
-          <tr className="text-sm text-gray-500 dark:text-gray-400">
-            <td className="py-1 pr-2 text-right w-12"></td>
+          <tr className={`text-sm ${muted}`}>
+            <td className="py-1 pr-2 text-right w-12" />
             {labels.map(label => (
-              <th key={label} className="py-1 px-1 sm:px-3 font-normal">{label}</th>
+              <th key={label} className="py-1 px-1 sm:px-3 font-normal text-[var(--neon-cyan)]">
+                {label}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody className="font-hanja">
-          {/* 천간 십신 */}
-          <tr className="text-sm text-gray-600 dark:text-gray-300">
-            <td className="pr-2 text-right text-gray-400 dark:text-gray-500 whitespace-nowrap">십신</td>
+          <tr className={`text-sm text-[var(--text-secondary)]`}>
+            <td className={`pr-2 text-right ${muted} whitespace-nowrap`}>십신</td>
             {pillars.map((p, i) => (
-              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? 'text-gray-300 dark:text-gray-600' : stemColorClass(p.pillar.stem)}`}>
+              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? cellMuted : stemColorClass(p.pillar.stem)}`}>
                 {i === 0 && unknownTime ? '?' : p.stemSipsin}
               </td>
             ))}
           </tr>
 
-          {/* 천간 */}
           <tr className="text-2xl">
-            <td className="pr-2 text-right text-sm text-gray-400 dark:text-gray-500 whitespace-nowrap">천간</td>
+            <td className={`pr-2 text-right text-sm ${muted} whitespace-nowrap`}>천간</td>
             {pillars.map((p, i) => (
               <td key={i} className="py-1 px-1 sm:px-3">
                 {i === 0 && unknownTime
-                  ? <span className="inline-flex items-center justify-center w-10 h-10 leading-none rounded pb-[3px] bg-gray-100 dark:bg-gray-800 text-gray-300 dark:text-gray-600">?</span>
-                  : <span className={`inline-flex items-center justify-center w-10 h-10 leading-none rounded pb-[3px] ${stemSolidBgClass(p.pillar.stem)}`}>{p.pillar.stem}</span>
-                }
+                  ? (
+                      <span className="inline-flex items-center justify-center w-10 h-10 leading-none rounded-lg pb-[3px] border border-[var(--border-subtle)] bg-[var(--surface-deep)] text-[var(--text-muted)]">
+                        ?
+                      </span>
+                    )
+                  : (
+                      <span className={`inline-flex items-center justify-center w-10 h-10 leading-none rounded-lg pb-[3px] ${stemSolidBgClass(p.pillar.stem)}`}>
+                        {p.pillar.stem}
+                      </span>
+                    )}
               </td>
             ))}
           </tr>
 
-          {/* 지지 */}
           <tr className="text-2xl">
-            <td className="pr-2 text-right text-sm text-gray-400 dark:text-gray-500 whitespace-nowrap">지지</td>
+            <td className={`pr-2 text-right text-sm ${muted} whitespace-nowrap`}>지지</td>
             {pillars.map((p, i) => (
               <td key={i} className="py-1 px-1 sm:px-3">
                 {i === 0 && unknownTime
-                  ? <span className="inline-flex items-center justify-center w-10 h-10 leading-none rounded pb-[3px] bg-gray-100 dark:bg-gray-800 text-gray-300 dark:text-gray-600">?</span>
-                  : <span className={`inline-flex items-center justify-center w-10 h-10 leading-none rounded pb-[3px] ${branchSolidBgClass(p.pillar.branch)}`}>{p.pillar.branch}</span>
-                }
+                  ? (
+                      <span className="inline-flex items-center justify-center w-10 h-10 leading-none rounded-lg pb-[3px] border border-[var(--border-subtle)] bg-[var(--surface-deep)] text-[var(--text-muted)]">
+                        ?
+                      </span>
+                    )
+                  : (
+                      <span className={`inline-flex items-center justify-center w-10 h-10 leading-none rounded-lg pb-[3px] ${branchSolidBgClass(p.pillar.branch)}`}>
+                        {p.pillar.branch}
+                      </span>
+                    )}
               </td>
             ))}
           </tr>
 
-          {/* 지지 십신 */}
-          <tr className="text-sm text-gray-600 dark:text-gray-300">
-            <td className="pr-2 text-right text-gray-400 dark:text-gray-500 whitespace-nowrap">십신</td>
+          <tr className={`text-sm text-[var(--text-secondary)]`}>
+            <td className={`pr-2 text-right ${muted} whitespace-nowrap`}>십신</td>
             {pillars.map((p, i) => (
-              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? 'text-gray-300 dark:text-gray-600' : branchColorClass(p.pillar.branch)}`}>
+              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? cellMuted : branchColorClass(p.pillar.branch)}`}>
                 {i === 0 && unknownTime ? '?' : p.branchSipsin}
               </td>
             ))}
           </tr>
 
-          {/* 구분선 */}
           <tr>
-            <td colSpan={5} className="py-1">
-              <div className="border-t border-gray-200 dark:border-gray-700" />
+            <td colSpan={5} className="py-2">
+              <div className="border-t border-[var(--border-subtle)]" />
             </td>
           </tr>
 
-          {/* 운성 */}
-          <tr className="text-sm text-gray-600 dark:text-gray-300">
-            <td className="pr-2 text-right text-gray-400 dark:text-gray-500 whitespace-nowrap">운성</td>
+          <tr className={`text-sm text-[var(--text-secondary)]`}>
+            <td className={`pr-2 text-right ${muted} whitespace-nowrap`}>운성</td>
             {pillars.map((p, i) => (
-              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? 'text-gray-300 dark:text-gray-600' : ''}`}>
+              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? cellMuted : ''}`}>
                 {i === 0 && unknownTime ? '?' : p.unseong}
               </td>
             ))}
           </tr>
 
-          {/* 신살 */}
-          <tr className="text-sm text-gray-600 dark:text-gray-300">
-            <td className="pr-2 text-right text-gray-400 dark:text-gray-500 whitespace-nowrap">신살</td>
+          <tr className={`text-sm text-[var(--text-secondary)]`}>
+            <td className={`pr-2 text-right ${muted} whitespace-nowrap`}>신살</td>
             {pillars.map((p, i) => (
-              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? 'text-gray-300 dark:text-gray-600' : ''}`}>
+              <td key={i} className={`py-0.5 px-1 sm:px-3 ${i === 0 && unknownTime ? cellMuted : ''}`}>
                 {i === 0 && unknownTime ? '?' : p.sinsal}
               </td>
             ))}
           </tr>
 
-          {/* 지장간 */}
           <tr className="text-sm">
-            <td className="pr-2 text-right text-gray-400 dark:text-gray-500 whitespace-nowrap">장간</td>
+            <td className={`pr-2 text-right ${muted} whitespace-nowrap`}>장간</td>
             {pillars.map((p, i) => (
               <td key={i} className="py-0.5 px-1 sm:px-3">
                 {i === 0 && unknownTime
-                  ? <span className="text-gray-300 dark:text-gray-600">?</span>
-                  : <span className="inline-flex gap-0.5 justify-center">
-                      {[...p.jigang].map((ch, j) =>
-                        ch === ' '
-                          ? <span key={j} className="inline-block w-4" />
-                          : <span key={j} className={`inline-flex items-center justify-center w-4 h-4 leading-none rounded-sm pb-px ${elementSolidBgClass(stemElement(ch))}`}>{ch}</span>
-                      )}
-                    </span>
-                }
+                  ? <span className={cellMuted}>?</span>
+                  : (
+                      <span className="inline-flex gap-0.5 justify-center">
+                        {[...p.jigang].map((ch, j) =>
+                          ch === ' '
+                            ? <span key={j} className="inline-block w-4" />
+                            : (
+                                <span
+                                  key={j}
+                                  className={`inline-flex items-center justify-center w-4 h-4 leading-none rounded-sm pb-px ${elementSolidBgClass(stemElement(ch))}`}
+                                >
+                                  {ch}
+                                </span>
+                              ),
+                        )}
+                      </span>
+                    )}
               </td>
             ))}
           </tr>

@@ -58,7 +58,6 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
     if (editingId) editNameInputRef.current?.focus()
   }, [editingId])
 
-  // 삭제 확인 3초 후 자동 리셋
   useEffect(() => {
     if (!confirmDeleteId) return
     const timer = setTimeout(() => setConfirmDeleteId(null), 3000)
@@ -138,39 +137,36 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
       }
     }
     reader.readAsText(file)
-    // 같은 파일 재선택 가능하도록 리셋
     e.target.value = ''
   }
 
   function handleDialogClick(e: React.MouseEvent<HTMLDialogElement>) {
-    // 백드롭 클릭 시 닫기
     if (e.target === dialogRef.current) onClose()
   }
 
   const inputClass =
-    'h-9 px-3 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-800 dark:text-gray-100 ' +
-    'bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800/20 dark:focus:ring-gray-200/20 ' +
-    'focus:border-gray-400 dark:focus:border-gray-500 transition-all'
+    'h-9 px-3 rounded-xl text-sm text-[var(--text-primary)] ' +
+    'bg-[var(--surface-deep)] border border-[var(--border-glow)] ' +
+    'focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] transition-all'
 
   const btnPrimary =
-    'px-2.5 py-1 text-sm rounded-md border transition-colors border-gray-800 dark:border-gray-200 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-300'
+    'px-2.5 py-1 text-sm rounded-lg border transition-all border-[var(--neon-primary-muted)] bg-[var(--neon-primary-dim)] text-[var(--neon-primary)] hover:shadow-[var(--shadow-glow-soft)]'
   const btnSecondary =
-    'px-2.5 py-1 text-sm rounded-md border transition-colors border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+    'px-2.5 py-1 text-sm rounded-lg border transition-all border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--border-glow)]'
 
   return (
     <dialog
       ref={dialogRef}
       onClick={handleDialogClick}
       onCancel={onClose}
-      className="m-auto rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-5 shadow-xl dark:shadow-none w-[min(28rem,calc(100vw-2rem))] overflow-hidden"
+      className="m-auto rounded-2xl p-5 shadow-[var(--shadow-glow-soft)] w-[min(28rem,calc(100vw-2rem))] overflow-hidden"
     >
-      {/* 헤더 */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-gray-100">프로필 관리</h2>
+        <h2 className="text-lg font-semibold text-[var(--text-primary)]">프로필 관리</h2>
         <button
           type="button"
           onClick={onClose}
-          className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+          className="p-1 text-[var(--text-muted)] hover:text-[var(--neon-cyan)] transition-colors"
           aria-label="닫기"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -179,17 +175,18 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
         </button>
       </div>
 
-      {/* 설명 + 내보내기/가져오기 */}
-      <p className="text-xs text-gray-400 dark:text-gray-500 leading-relaxed mb-4">
-        프로필은 브라우저 저장소(LocalStorage)에 보관되며, 브라우저 데이터 삭제 시 함께 사라집니다.{' '}
-        <button type="button" onClick={handleExport} disabled={profiles.length === 0} className="underline text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 disabled:opacity-40 disabled:no-underline transition-colors">내보내기</button>
-        /
-        <button type="button" onClick={() => fileInputRef.current?.click()} className="underline text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">가져오기</button>
-        로 백업할 수 있습니다.
+      <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-4">
+        프로필은 브라우저 저장소(LocalStorage)에 보관됩니다.{' '}
+        <button type="button" onClick={handleExport} disabled={profiles.length === 0} className="underline text-[var(--neon-cyan)] hover:text-[var(--text-primary)] disabled:opacity-40 disabled:no-underline transition-colors">
+         보내기
+        </button>
+        {' / '}
+        <button type="button" onClick={() => fileInputRef.current?.click()} className="underline text-[var(--neon-cyan)] hover:text-[var(--text-primary)] transition-colors">
+          가져오기
+        </button>
       </p>
       <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
 
-      {/* 새 프로필 저장 */}
       {savingNew ? (
         <form
           onSubmit={e => { e.preventDefault(); handleSaveNew() }}
@@ -201,9 +198,9 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
             value={newName}
             onChange={e => setNewName(e.target.value)}
             placeholder="별칭 입력"
-            className={inputClass + ' flex-1'}
+            className={`${inputClass} flex-1`}
           />
-          <button type="submit" disabled={!newName.trim()} className={btnPrimary + ' disabled:opacity-40'}>
+          <button type="submit" disabled={!newName.trim()} className={`${btnPrimary} disabled:opacity-40`}>
             저장
           </button>
           <button type="button" onClick={() => setSavingNew(false)} className={btnSecondary}>
@@ -214,36 +211,34 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
         <button
           type="button"
           onClick={() => setSavingNew(true)}
-          className="w-full mb-4 py-2.5 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          className="w-full mb-4 py-2.5 border border-dashed border-[var(--border-glow)] rounded-xl text-sm text-[var(--text-muted)] hover:border-[var(--neon-primary-muted)] hover:text-[var(--neon-primary)] transition-all"
         >
           <span>+ 입력한 정보로 새 프로필 추가</span>
-          <span className="block text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+          <span className="block text-xs text-[var(--text-muted)] mt-0.5">
             {open && getCurrentFormState() && formatSummary(getCurrentFormState()!)}
           </span>
         </button>
       )}
 
       {error && (
-        <div className="mb-3 px-3 py-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-600 dark:text-red-400">
+        <div className="mb-3 px-3 py-2 rounded-xl border border-[color-mix(in_srgb,#f472b6_50%,transparent)] bg-[color-mix(in_srgb,#f472b6_12%,transparent)] text-sm text-[#fda4af]">
           {error}
         </div>
       )}
 
-      {/* 프로필 목록 */}
       <div className="max-h-[60vh] overflow-y-auto">
         {profiles.length === 0 ? (
-          <p className="text-center text-sm text-gray-400 dark:text-gray-500 py-6">
+          <p className="text-center text-sm text-[var(--text-muted)] py-6">
             저장된 프로필이 없습니다.
           </p>
         ) : (
-          <div className="space-y-0 divide-y divide-gray-100 dark:divide-gray-800">
+          <div className="space-y-0 divide-y divide-[var(--border-subtle)]">
             {profiles.map(profile => (
               <div
                 key={profile.id}
                 onClick={() => editingId !== profile.id && handleSelect(profile.data)}
-                className="py-3 first:pt-0 last:pb-0 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+                className="py-3 first:pt-0 last:pb-0 cursor-pointer hover:bg-[var(--neon-primary-dim)]/30 rounded-xl px-1 -mx-1 transition-colors"
               >
-                {/* 별칭 + 액션 */}
                 {editingId === profile.id ? (
                   <form
                     onSubmit={e => { e.preventDefault(); handleRename(profile.id) }}
@@ -257,19 +252,19 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
                       onChange={e => setEditName(e.target.value)}
                       onBlur={() => handleRename(profile.id)}
                       onKeyDown={e => { if (e.key === 'Escape') { setEditingId(null) } }}
-                      className={inputClass + ' flex-1 h-7 text-sm'}
+                      className={`${inputClass} flex-1 h-7 text-sm`}
                     />
                   </form>
                 ) : (
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                    <span className="text-sm font-medium text-[var(--text-primary)]">
                       {profile.name}
                     </span>
                     <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
                       <button
                         type="button"
                         onClick={() => { setEditingId(profile.id); setEditName(profile.name) }}
-                        className="p-1 text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
+                        className="p-1 text-[var(--text-muted)] hover:text-[var(--neon-cyan)] transition-colors"
                         title="별칭 수정"
                       >
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -280,8 +275,8 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
                         type="button"
                         onClick={() => handleDelete(profile.id)}
                         className={confirmDeleteId === profile.id
-                          ? 'px-1.5 py-0.5 text-xs rounded border border-red-400 dark:border-red-600 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400 transition-colors'
-                          : 'p-1 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 transition-colors'}
+                          ? 'px-1.5 py-0.5 text-xs rounded-lg border border-[color-mix(in_srgb,#f472b6_50%,transparent)] bg-[color-mix(in_srgb,#f472b6_15%,transparent)] text-[#fda4af] transition-colors'
+                          : 'p-1 text-[var(--text-muted)] hover:text-[#fda4af] transition-colors'}
                       >
                         {confirmDeleteId === profile.id ? '확인?' : (
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -293,8 +288,7 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
                   </div>
                 )}
 
-                {/* 요약 */}
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
                   {formatSummary(profile.data)}
                 </p>
               </div>

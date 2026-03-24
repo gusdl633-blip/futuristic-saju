@@ -17,7 +17,7 @@ function applyTheme(pref: ThemePreference) {
 
   document.documentElement.classList.toggle('dark', isDark)
   document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', isDark ? '#0f172a' : '#f9fafb')
+    ?.setAttribute('content', isDark ? '#030712' : '#f8fafc')
 }
 
 export default function ThemeToggle() {
@@ -55,13 +55,15 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={cycle}
-      className="fixed top-3 left-3 z-50 p-2 rounded-full
-        bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm
-        border border-gray-200 dark:border-gray-700
-        text-gray-600 dark:text-gray-300
-        hover:bg-gray-100 dark:hover:bg-gray-700
-        transition-colors"
+      className="fixed top-3 left-3 z-50 p-2.5 rounded-xl
+        bg-[var(--glass-bg)] backdrop-blur-sm
+        border border-[var(--border-glow)]
+        text-[var(--text-secondary)]
+        hover:border-[var(--neon-primary-muted)] hover:text-[var(--neon-primary)]
+        shadow-[var(--shadow-glow-soft)]
+        transition-all"
       aria-label={titles[pref]}
       title={titles[pref]}
     >

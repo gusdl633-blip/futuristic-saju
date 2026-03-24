@@ -22,8 +22,8 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
   if (daewoon.length === 0) {
     return (
       <section>
-        <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">大運</h3>
-        <p className="text-base text-gray-400 dark:text-gray-500">대운 데이터가 없습니다.</p>
+        <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2 font-hanja">大運</h3>
+        <p className="text-sm text-[var(--text-muted)]">대운 데이터가 없습니다.</p>
       </section>
     )
   }
@@ -42,14 +42,14 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
 
   return (
     <section>
-      <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">大運</h3>
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2 font-hanja">大運</h3>
       {unknownTime && (
-        <p className="text-sm text-amber-600 dark:text-amber-400 mb-2">
-          출생 시간 없이 정오(12:00) 기준으로 계산하여 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
+        <p className="text-xs text-[var(--neon-cyan)] mb-3 leading-relaxed border-l-2 border-[var(--neon-cyan-muted)] pl-3">
+          출생 시각을 모를 때는 정오(12:00) 기준이라 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
         </p>
       )}
-      <div ref={scrollRef} className="overflow-x-auto py-1">
-        <div className="flex flex-row-reverse gap-2 w-fit font-hanja">
+      <div ref={scrollRef} className="overflow-x-auto py-1 -mx-1">
+        <div className="flex flex-row-reverse gap-2 w-fit font-hanja px-1">
           {daewoon.map((dw, i) => {
             const isActive = i === activeIdx
             const stem = dw.ganzi[0]
@@ -58,19 +58,23 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
               <div
                 key={dw.index}
                 ref={isActive ? activeRef : undefined}
-                className={`flex flex-col items-center gap-0.5 rounded-lg px-1 py-1 ${isActive ? 'ring-2 ring-amber-400 dark:ring-amber-500 bg-amber-50 dark:bg-amber-950' : ''}`}
+                className={`flex flex-col items-center gap-0.5 rounded-xl px-2 py-2 border transition-all ${
+                  isActive
+                    ? 'border-[var(--neon-primary-muted)] bg-[var(--neon-primary-dim)] shadow-[var(--shadow-glow-soft)]'
+                    : 'border-[var(--border-subtle)] bg-[var(--surface-deep)]/50'
+                }`}
               >
-                <span className="text-xs text-gray-500 dark:text-gray-400">{dw.age}세</span>
+                <span className="text-xs text-[var(--text-muted)]">{dw.age}세</span>
                 <span className={`text-sm ${stemColorClass(stem)}`}>{dw.stemSipsin}</span>
-                <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded pb-[2px] ${stemSolidBgClass(stem)}`}>
+                <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded-lg pb-[2px] ${stemSolidBgClass(stem)}`}>
                   {stem}
                 </span>
-                <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded pb-[2px] ${branchSolidBgClass(branch)}`}>
+                <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded-lg pb-[2px] ${branchSolidBgClass(branch)}`}>
                   {branch}
                 </span>
                 <span className={`text-sm ${branchColorClass(branch)}`}>{dw.branchSipsin}</span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{dw.unseong}</span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{dw.sinsal}</span>
+                <span className="text-xs text-[var(--text-muted)]">{dw.unseong}</span>
+                <span className="text-xs text-[var(--text-muted)]">{dw.sinsal}</span>
               </div>
             )
           })}

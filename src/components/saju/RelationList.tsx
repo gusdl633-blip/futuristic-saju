@@ -3,7 +3,7 @@ import { ELEMENT_HANJA } from '@orrery/core/constants'
 
 interface Props {
   relations: AllRelations
-  pillars: string[]  // 간지 [시, 일, 월, 년]
+  pillars: string[]
 }
 
 const PAIR_NAMES: Record<string, string> = {
@@ -20,9 +20,12 @@ function getRelKind(type: string): RelKind {
 }
 
 const KIND_STYLES: Record<RelKind, string> = {
-  good: 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400',
-  bad: 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400',
-  neutral: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300',
+  good:
+    'border-[var(--neon-cyan-muted)] bg-[color-mix(in_srgb,var(--neon-cyan)_12%,transparent)] text-[var(--neon-cyan)]',
+  bad:
+    'border-[color-mix(in_srgb,#f472b6_45%,transparent)] bg-[color-mix(in_srgb,#f472b6_10%,transparent)] text-[#fda4af]',
+  neutral:
+    'border-[var(--border-subtle)] bg-[var(--surface-deep)] text-[var(--text-secondary)]',
 }
 
 function formatRelation(r: RelationResult, char1: string, char2: string) {
@@ -35,7 +38,6 @@ function formatRelation(r: RelationResult, char1: string, char2: string) {
 export default function RelationList({ relations, pillars }: Props) {
   const lines: Array<{ label: string; tags: Array<{ text: string; kind: RelKind }> }> = []
 
-  // 주 쌍 관계
   relations.pairs.forEach((rel, key) => {
     const [iStr, jStr] = key.split(',')
     const i = Number(iStr)
@@ -54,13 +56,11 @@ export default function RelationList({ relations, pillars }: Props) {
     }
   })
 
-  // 삼합
   for (const rel of relations.triple) {
     const el = rel.detail && ELEMENT_HANJA[rel.detail] ? ELEMENT_HANJA[rel.detail] : ''
     lines.push({ label: '', tags: [{ text: `${rel.type}${el}局`, kind: 'good' }] })
   }
 
-  // 방합
   for (const rel of relations.directional) {
     const el = rel.detail && ELEMENT_HANJA[rel.detail] ? ELEMENT_HANJA[rel.detail] : ''
     lines.push({ label: '', tags: [{ text: `${rel.type}${el}`, kind: 'good' }] })
@@ -70,18 +70,18 @@ export default function RelationList({ relations, pillars }: Props) {
 
   return (
     <section>
-      <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">八字關係</h3>
-      <div className="space-y-1.5">
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3 font-hanja">八字關係</h3>
+      <div className="space-y-2">
         {lines.map((line, i) => (
-          <div key={i} className="flex items-center gap-2 text-base">
+          <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
             {line.label && (
-              <span className="text-gray-400 dark:text-gray-500 w-10 shrink-0">{line.label}</span>
+              <span className="text-[var(--text-muted)] w-12 shrink-0 text-sm">{line.label}</span>
             )}
             <div className="flex flex-wrap gap-1.5">
               {line.tags.map((tag, j) => (
                 <span
                   key={j}
-                  className={`px-2 py-0.5 rounded text-sm font-medium ${KIND_STYLES[tag.kind]}`}
+                  className={`px-2.5 py-1 rounded-lg text-sm font-medium border ${KIND_STYLES[tag.kind]}`}
                 >
                   {tag.text}
                 </span>

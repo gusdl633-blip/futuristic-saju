@@ -15,7 +15,6 @@ export default function CopyButton({ getText, label = '복사' }: Props) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // fallback
       const textarea = document.createElement('textarea')
       textarea.value = text
       document.body.appendChild(textarea)
@@ -29,8 +28,9 @@ export default function CopyButton({ getText, label = '복사' }: Props) {
 
   return (
     <button
+      type="button"
       onClick={handleClick}
-      className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300 whitespace-nowrap"
+      className="px-3 py-1.5 text-sm rounded-xl border border-[var(--border-glow)] bg-[var(--surface-elevated)]/60 text-[var(--text-secondary)] hover:border-[var(--neon-primary-muted)] hover:text-[var(--neon-primary)] hover:shadow-[var(--shadow-glow-soft)] transition-all whitespace-nowrap"
     >
       {copied ? '복사됨 ✓' : label}
     </button>
