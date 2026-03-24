@@ -1,0 +1,34 @@
+{
+  "name": "혼천의(渾天儀) - 사주팔자 · 자미두수 · 점성술 출생차트 계산기",
+  "short_name": "혼천의",
+  "description": "생년월일시로 사주팔자(四柱八字), 자미두수(紫微斗數) 명반, 서양 점성술 출생차트(Natal Chart)를 계산하는 무료 웹 도구",
+  "start_url": "/orrery/",
+  "scope": "/orrery/",
+  "display": "standalone",
+  "theme_color": "#1e293b",
+  "background_color": "#0f172a",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

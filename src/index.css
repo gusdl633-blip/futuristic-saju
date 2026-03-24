@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-tree: #22c55e;
+  --color-fire: #ef4444;
+  --color-earth: #eab308;
+  --color-metal: #9ca3af;
+  --color-water: #1a1a1a;
+
+  --wheel-axis: #374151;
+  --wheel-grid: #9ca3af;
+  --wheel-outline: #6b7280;
+  --wheel-inner: #d1d5db;
+  --wheel-planet: #1f2937;
+  --wheel-segment-opacity: 0.12;
+  --wheel-segment-stroke-opacity: 0.3;
+}
+
+.dark {
+  --wheel-axis: #d1d5db;
+  --wheel-grid: #6b7280;
+  --wheel-outline: #9ca3af;
+  --wheel-inner: #4b5563;
+  --wheel-planet: #e5e7eb;
+  --wheel-segment-opacity: 0.2;
+  --wheel-segment-stroke-opacity: 0.5;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Pretendard Variable', Pretendard,
+    'Noto Sans KR',
+    'Apple SD Gothic Neo', 'Malgun Gothic',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-hanja {
+  font-family:
+    'Noto Sans KR',
+    'Apple SD Gothic Neo', 'Malgun Gothic',
+    sans-serif;
+}
+
+.el-tree { color: var(--color-tree); }
+.el-fire { color: var(--color-fire); }
+.el-earth { color: var(--color-earth); }
+.el-metal { color: var(--color-metal); }
+.el-water { color: var(--color-water); }
+
+.bg-el-tree { background-color: color-mix(in srgb, var(--color-tree) 15%, transparent); }
+.bg-el-fire { background-color: color-mix(in srgb, var(--color-fire) 15%, transparent); }
+.bg-el-earth { background-color: color-mix(in srgb, var(--color-earth) 15%, transparent); }
+.bg-el-metal { background-color: color-mix(in srgb, var(--color-metal) 15%, transparent); }
+.bg-el-water { background-color: color-mix(in srgb, var(--color-water) 15%, transparent); }
+
+.bg-el-solid-tree  { background-color: var(--color-tree); color: #fff; }
+.bg-el-solid-fire  { background-color: var(--color-fire); color: #fff; }
+.bg-el-solid-earth { background-color: var(--color-earth); color: #1a1a1a; }
+.bg-el-solid-metal { background-color: #fff; color: #000; box-shadow: inset 0 0 0 1px #d1d5db; }
+.bg-el-solid-water { background-color: var(--color-water); color: #fff; }
+
+/* Dark mode: water element border for visibility */
+.dark .bg-el-solid-water { box-shadow: inset 0 0 0 1px #6b7280; }
+
+/* Dialog */
+dialog::backdrop { background: rgba(0, 0, 0, 0.4); }
+dialog[open] { border: none; }
+

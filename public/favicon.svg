@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Orbit -->
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#1f2937" stroke-width="4"/>
+
+  <!-- Sun -->
+  <circle cx="32" cy="32" r="7" fill="#1f2937"/>
+
+  <!-- Moon crescent (upper-right, ~45° on orbit) -->
+  <path d="M50,6 A7,7 0 1,0 50,20 A5,5 0 1,1 50,6Z" fill="#1f2937"/>
+
+  <!-- Star diamond (lower-left, ~210° on orbit) -->
+  <path d="M19.5,47 L24.5,54 19.5,61 14.5,54Z" fill="#1f2937"/>
+</svg>
