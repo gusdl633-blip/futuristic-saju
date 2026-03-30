@@ -17,7 +17,7 @@ function applyTheme(pref: ThemePreference) {
 
   document.documentElement.classList.toggle('dark', isDark)
   document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', isDark ? '#030712' : '#f8fafc')
+    ?.setAttribute('content', isDark ? '#0b0f1a' : '#f8fafc')
 }
 
 export default function ThemeToggle() {

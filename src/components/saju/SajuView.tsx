@@ -1,18 +1,18 @@
-import { useMemo } from 'react'
-import { calculateSaju } from '@orrery/core/saju'
-import PillarTable from './PillarTable.tsx'
-import RelationList from './RelationList.tsx'
-import SinsalList from './SinsalList.tsx'
-import JwabeopChart from './JwabeopChart.tsx'
-import InjongbeopChart from './InjongbeopChart.tsx'
-import DaewoonTable from './DaewoonTable.tsx'
-import TransitView from './TransitView.tsx'
-import CopyButton from '../CopyButton.tsx'
-import { sajuToText } from '../../utils/text-export.ts'
-import type { BirthInput } from '@orrery/core/types'
+import { useMemo, useState } from 'react'
+import { calculateSaju } from '../../../packages/core/src/saju.js'
+import PillarTable from './PillarTable.js'
+import RelationList from './RelationList.js'
+import SinsalList from './SinsalList.js'
+import JwabeopChart from './JwabeopChart.js'
+import InjongbeopChart from './InjongbeopChart.js'
+import DaewoonTable from './DaewoonTable.js'
+import TransitView from './TransitView.js'
+import CopyButton from '../CopyButton.js'
+import { sajuToText } from '../../utils/text-export.js'
+import type { BirthInput } from '../../../packages/core/src/types.js'
 
 const card =
-  'rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)]/35 p-4'
+  'rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[var(--card-bg)] backdrop-blur-md p-4 shadow-[0_0_24px_rgba(59,130,246,0.06)] dark:border-[rgba(255,255,255,0.08)] dark:bg-[rgba(255,255,255,0.03)]'
 
 interface Props {
   input: BirthInput
@@ -20,6 +20,7 @@ interface Props {
 
 export default function SajuView({ input }: Props) {
   const result = useMemo(() => calculateSaju(input), [input])
+  const [preferKorean, setPreferKorean] = useState(true)
 
   const ganzis = result.pillars.map(p => p.pillar.ganzi)
   const natalPillars = ganzis
@@ -27,13 +28,24 @@ export default function SajuView({ input }: Props) {
   return (
     <div className="space-y-5">
       <section className={card}>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-          <h2 className="text-base font-semibold tracking-tight text-[var(--text-primary)] font-hanja">
-            四柱八字
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+          <h2 className="text-base font-semibold tracking-tight text-[var(--text-primary)]">
+            명식 표 (상세)
           </h2>
-          <CopyButton getText={() => sajuToText(result)} label="명식 텍스트 복사" />
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <label className="flex items-center gap-2 text-xs sm:text-sm text-[var(--text-secondary)] cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={preferKorean}
+                onChange={e => setPreferKorean(e.target.checked)}
+                className="rounded border-[var(--border-glow)]"
+              />
+              한글 표시
+            </label>
+            <CopyButton getText={() => sajuToText(result)} label="명식 텍스트 복사" />
+          </div>
         </div>
-        <PillarTable pillars={result.pillars} unknownTime={input.unknownTime} />
+        <PillarTable pillars={result.pillars} unknownTime={input.unknownTime} preferKorean={preferKorean} />
       </section>
 
       <div className={card}>

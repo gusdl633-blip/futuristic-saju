@@ -15,11 +15,11 @@ import {
   DOHWA_MAP, CHEONUL_MAP, CHEONDUK_MAP, WOLDUK_MAP,
   MUNCHANG_MAP, HONGYEOM_PILLARS, GEUMYEO_MAP,
   JIJANGGAN, METEOR_LOOKUP, PILLAR_NAMES,
-} from './constants.ts';
+} from './constants.js';
 import type {
   Element, Relation, RelationResult, PairRelation, AllRelations, SpecialSals,
   TransitItem, JwaEntry, InjongEntry, JasiMethod,
-} from './types.ts';
+} from './types.js';
 
 // =============================================
 // 유틸리티

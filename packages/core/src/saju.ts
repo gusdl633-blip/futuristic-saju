@@ -5,12 +5,12 @@ import {
   getFourPillars, getDaewoon, getRelation, getJeonggi,
   getTwelveMeteor, getTwelveSpirit, getHiddenStems, analyzeAllRelations, getSpecialSals,
   calculateJwabeop, calculateInjongbeop,
-} from './pillars.ts';
-import { STEM_INFO } from './constants.ts';
-import { adjustKdtToKst } from './kdt.ts';
+} from './pillars.js';
+import { STEM_INFO } from './constants.js';
+import { adjustKdtToKst } from './kdt.js';
 import type {
   BirthInput, SajuResult, PillarDetail, Pillar, DaewoonItem,
-} from './types.ts';
+} from './types.js';
 
 /** 천간 → 십신 (한자) */
 function getSipsin(dayStem: string, targetStem: string): string {

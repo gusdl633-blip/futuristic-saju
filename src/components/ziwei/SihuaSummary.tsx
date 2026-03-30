@@ -1,4 +1,5 @@
-import type { ZiweiChart } from '@orrery/core/types'
+import type { ZiweiChart } from '../../../packages/core/src/types.js'
+import { formatPalaceName, formatSihua, formatStarName } from '../../utils/ziweiDisplay.js'
 
 interface Props {
   chart: ZiweiChart
@@ -26,17 +27,17 @@ export default function SihuaSummary({ chart }: Props) {
 
   return (
     <section>
-      <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">四化</h3>
+      <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">사화(四化)</h3>
       <div className="space-y-0.5">
         {Object.entries(siHuaInfo).map(([huaType, info]) => {
           if (!info) return null
           return (
             <div key={huaType} className="text-base text-gray-600 dark:text-gray-300">
-              <span className={colorMap[huaType] || ''}>{huaType}</span>
+              <span className={colorMap[huaType] || ''}>{formatSihua(huaType)}</span>
               <span className="text-gray-400 dark:text-gray-500 mx-1">:</span>
-              <span className="font-hanja">{info.star}</span>
-              <span className="text-gray-400 dark:text-gray-500 mx-1">在</span>
-              <span>{info.palace}</span>
+              <span>{formatStarName(info.star)}</span>
+              <span className="text-gray-400 dark:text-gray-500 mx-1">재(在)</span>
+              <span>{formatPalaceName(info.palace)}</span>
             </div>
           )
         })}

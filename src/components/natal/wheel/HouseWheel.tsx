@@ -1,12 +1,12 @@
 /**
  * 하우스 커스프 선 + 라벨 + 내원
  */
-import { ROMAN } from '@orrery/core/natal'
-import type { NatalHouse, NatalAngles } from '@orrery/core/types'
+import { ROMAN } from '../../../../packages/core/src/natal.js'
+import type { NatalHouse, NatalAngles } from '../../../../packages/core/src/types.js'
 import {
   CX, CY, R_ZODIAC_INNER, R_INNER, R_HOUSE_LABEL,
   lonToAngle, angleToPoint,
-} from './geometry.ts'
+} from './geometry.js'
 
 interface Props {
   houses: NatalHouse[]

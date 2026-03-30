@@ -1,4 +1,4 @@
-import type { SavedFormState } from '../components/BirthForm.tsx'
+import type { SavedFormState } from '../components/BirthForm.js'
 
 export interface Profile {
   id: string

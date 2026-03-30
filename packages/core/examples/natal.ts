@@ -5,8 +5,8 @@
  *
  * 외부 의존성 없이 순수 TypeScript로 실행됩니다.
  */
-import { calculateNatal, ZODIAC_SYMBOLS, PLANET_SYMBOLS, PLANET_KO, ASPECT_SYMBOLS, ROMAN, formatDegree } from '../src/natal.ts'
-import type { BirthInput } from '../src/types.ts'
+import { calculateNatal, ZODIAC_SYMBOLS, PLANET_SYMBOLS, PLANET_KO, ASPECT_SYMBOLS, ROMAN, formatDegree } from '../src/natal.js'
+import type { BirthInput } from '../src/types.js'
 
 const input: BirthInput = {
   year: 1993,

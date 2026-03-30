@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import type { City } from '@orrery/core/cities'
-import { KOREAN_CITIES, filterCities, formatCityName } from '@orrery/core/cities'
+import type { City } from '../../packages/core/src/cities.js'
+import { KOREAN_CITIES, filterCities, formatCityName } from '../../packages/core/src/cities.js'
 
 interface Props {
   selectedCity: City | null
   onSelect: (city: City) => void
 }
 
-const inputClass =
-  'w-full h-10 px-3 rounded-xl text-base text-[var(--text-primary)] bg-[var(--surface-elevated)]/80 ' +
-  'border border-[var(--border-glow)] ' +
-  'focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] transition-all'
+const inputClass = 'input-neon w-full h-10 px-3 text-base transition-all'
 
 const DEFAULT_CITIES = KOREAN_CITIES.slice(0, 8) as City[]
 
@@ -204,7 +201,7 @@ export default function CityCombobox({ selectedCity, onSelect }: Props) {
           ref={listRef}
           id={listboxId}
           role="listbox"
-          className="absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-xl border border-[var(--border-glow)] bg-[var(--surface-elevated)] shadow-[var(--shadow-glow-soft)] py-1"
+          className="absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-xl border border-[rgba(255,255,255,0.1)] bg-[var(--card-bg)] backdrop-blur-xl shadow-[var(--shadow-glow-soft)] py-1 dark:bg-[rgba(20,26,42,0.92)]"
         >
           {renderOptions()}
         </ul>

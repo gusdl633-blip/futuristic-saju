@@ -1,5 +1,7 @@
-import type { AllRelations, RelationResult } from '@orrery/core/types'
-import { ELEMENT_HANJA } from '@orrery/core/constants'
+import type { AllRelations, RelationResult } from '../../../packages/core/src/types.js'
+import { ELEMENT_HANJA } from '../../../packages/core/src/constants.js'
+import { formatGan, formatJi, formatElementKoreanHanja, relationTypeToKorean } from '../../utils/sajuDisplay.js'
+import type { Element } from '../../../packages/core/src/types.js'
 
 interface Props {
   relations: AllRelations
@@ -7,8 +9,8 @@ interface Props {
 }
 
 const PAIR_NAMES: Record<string, string> = {
-  '0,1': '時-日', '0,2': '時-月', '0,3': '時-年',
-  '1,2': '日-月', '1,3': '日-年', '2,3': '月-年',
+  '0,1': '시-일(時-日)', '0,2': '시-월(時-月)', '0,3': '시-년(時-年)',
+  '1,2': '일-월(日-月)', '1,3': '일-년(日-年)', '2,3': '월-년(月-年)',
 }
 
 type RelKind = 'good' | 'bad' | 'neutral'
@@ -29,10 +31,13 @@ const KIND_STYLES: Record<RelKind, string> = {
 }
 
 function formatRelation(r: RelationResult, char1: string, char2: string) {
-  const detail = r.detail && ELEMENT_HANJA[r.detail]
-    ? ELEMENT_HANJA[r.detail]
+  const detailEl = r.detail && ELEMENT_HANJA[r.detail as Element] ? (r.detail as Element) : undefined
+  const detail = detailEl
+    ? formatElementKoreanHanja(detailEl)
     : r.detail ? `(${r.detail})` : ''
-  return { text: `${char1}${char2} ${r.type}${detail}`, kind: getRelKind(r.type) }
+  const left = formatGan(char1)
+  const right = formatGan(char2)
+  return { text: `${left}·${right} ${relationTypeToKorean(r.type)}${detail}`, kind: getRelKind(r.type) }
 }
 
 export default function RelationList({ relations, pillars }: Props) {
@@ -48,7 +53,16 @@ export default function RelationList({ relations, pillars }: Props) {
       tags.push(formatRelation(r, pillars[i][0], pillars[j][0]))
     }
     for (const r of rel.branch) {
-      tags.push(formatRelation(r, pillars[i][1], pillars[j][1]))
+      tags.push({
+        ...formatRelation(r, pillars[i][1], pillars[j][1]),
+        text: `${formatJi(pillars[i][1])}·${formatJi(pillars[j][1])} ${relationTypeToKorean(r.type)}${
+          r.detail && ELEMENT_HANJA[r.detail as Element]
+            ? formatElementKoreanHanja(r.detail as Element)
+            : r.detail
+              ? `(${r.detail})`
+              : ''
+        }`,
+      })
     }
 
     if (tags.length > 0) {
@@ -57,20 +71,20 @@ export default function RelationList({ relations, pillars }: Props) {
   })
 
   for (const rel of relations.triple) {
-    const el = rel.detail && ELEMENT_HANJA[rel.detail] ? ELEMENT_HANJA[rel.detail] : ''
-    lines.push({ label: '', tags: [{ text: `${rel.type}${el}局`, kind: 'good' }] })
+    const el = rel.detail && ELEMENT_HANJA[rel.detail as Element] ? formatElementKoreanHanja(rel.detail as Element) : ''
+    lines.push({ label: '', tags: [{ text: `${relationTypeToKorean(rel.type)}${el} 국(局)`, kind: 'good' }] })
   }
 
   for (const rel of relations.directional) {
-    const el = rel.detail && ELEMENT_HANJA[rel.detail] ? ELEMENT_HANJA[rel.detail] : ''
-    lines.push({ label: '', tags: [{ text: `${rel.type}${el}`, kind: 'good' }] })
+    const el = rel.detail && ELEMENT_HANJA[rel.detail as Element] ? formatElementKoreanHanja(rel.detail as Element) : ''
+    lines.push({ label: '', tags: [{ text: `${relationTypeToKorean(rel.type)}${el}`, kind: 'good' }] })
   }
 
   if (lines.length === 0) return null
 
   return (
     <section>
-      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3 font-hanja">八字關係</h3>
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-3">팔자관계(八字關係)</h3>
       <div className="space-y-2">
         {lines.map((line, i) => (
           <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-2 text-base">

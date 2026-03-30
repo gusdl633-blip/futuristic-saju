@@ -7,11 +7,11 @@
  * 3. ZodiacRing (외곽 밴드)
  * 4. PlanetMarkers (행성 심볼)
  */
-import type { NatalChart } from '@orrery/core/types'
-import AspectLines from './AspectLines.tsx'
-import HouseWheel from './HouseWheel.tsx'
-import ZodiacRing from './ZodiacRing.tsx'
-import PlanetMarkers from './PlanetMarkers.tsx'
+import type { NatalChart } from '../../../../packages/core/src/types.js'
+import AspectLines from './AspectLines.js'
+import HouseWheel from './HouseWheel.js'
+import ZodiacRing from './ZodiacRing.js'
+import PlanetMarkers from './PlanetMarkers.js'
 
 interface Props {
   chart: NatalChart

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { calculateNatal, normalizeDeg } from '../src/natal.ts'
-import { NATAL_FIXTURES } from './fixtures.ts'
-import type { BirthInput } from '../src/types.ts'
+import { calculateNatal, normalizeDeg } from '../src/natal.js'
+import { NATAL_FIXTURES } from './fixtures.js'
+import type { BirthInput } from '../src/types.js'
 
 function makeInput(f: typeof NATAL_FIXTURES[0]): BirthInput {
   return {
@@ -31,6 +31,7 @@ describe('calculateNatal', () => {
 
     it(`ASC/MC for ${label}`, async () => {
       const chart = await calculateNatal(makeInput(fixture))
+      if (chart.angles == null) throw new Error('angles required for fixture ' + label)
       expect(chart.angles.asc.longitude).toBeCloseTo(fixture.expected.asc.lon, 0)
       expect(chart.angles.asc.sign).toBe(fixture.expected.asc.sign)
       expect(chart.angles.mc.longitude).toBeCloseTo(fixture.expected.mc.lon, 0)

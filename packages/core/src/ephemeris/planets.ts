@@ -10,12 +10,12 @@
  * AGPL-licensed — see Swiss Ephemeris license terms.
  */
 
-import type { PlanetTable } from './tables/planet-coefficients.ts'
-import { polcart, coortrf2, DEG_TO_RAD } from './math.ts'
-import { calcObliquity } from './obliquity.ts'
-import { precess } from './precession.ts'
-import { calcNutation } from './nutation.ts'
-import { deltaT } from './deltat.ts'
+import type { PlanetTable } from './tables/planet-coefficients.js'
+import { polcart, coortrf2, DEG_TO_RAD } from './math.js'
+import { calcObliquity } from './obliquity.js'
+import { precess } from './precession.js'
+import { calcNutation } from './nutation.js'
+import { deltaT } from './deltat.js'
 
 const J2000 = 2451545.0
 const J1900 = 2415020.0

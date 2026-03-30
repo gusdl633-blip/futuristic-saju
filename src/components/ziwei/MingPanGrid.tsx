@@ -1,6 +1,15 @@
-import type { ZiweiChart, ZiweiPalace } from '@orrery/core/types'
-import { PALACE_NAMES, MAIN_STAR_NAMES, LUCKY_STAR_NAMES, SHA_STAR_NAMES, DI_ZHI } from '@orrery/core/constants'
-import { getDaxianList } from '@orrery/core/ziwei'
+import type { ZiweiChart, ZiweiPalace } from '../../../packages/core/src/types.js'
+import { PALACE_NAMES, MAIN_STAR_NAMES, LUCKY_STAR_NAMES, SHA_STAR_NAMES, DI_ZHI } from '../../../packages/core/src/constants.js'
+import { getDaxianList } from '../../../packages/core/src/ziwei.js'
+import {
+  formatBrightness,
+  formatGanzhi,
+  formatPalaceName,
+  formatSihua,
+  formatStarName,
+  formatWuxingJu,
+  formatZiweiLabel,
+} from '../../utils/ziweiDisplay.js'
 
 interface Props {
   chart: ZiweiChart
@@ -48,28 +57,28 @@ function PalaceCell({ palace, daxianRange }: { palace: ZiweiPalace; daxianRange?
       <div>
         <div className="flex items-baseline justify-between gap-1">
           <span className="font-medium text-gray-800 dark:text-gray-100">
-            {palace.name}
-            {palace.isShenGong && <span className="text-purple-600 dark:text-purple-400 ml-0.5">·身</span>}
+            {formatPalaceName(palace.name)}
+            {palace.isShenGong && <span className="text-purple-600 dark:text-purple-400 ml-0.5">·신(身)</span>}
           </span>
-          <span className="text-gray-400 dark:text-gray-500 font-hanja text-xs">{palace.ganZhi}</span>
+          <span className="text-gray-400 dark:text-gray-500 text-xs">{formatGanzhi(palace.ganZhi)}</span>
         </div>
 
         {/* 주성 */}
         <div className="mt-1 space-y-0.5">
           {mainStars.length > 0 ? (
             mainStars.map(s => (
-              <div key={s.name} className="font-hanja">
-                <span>{s.name}</span>
+              <div key={s.name}>
+                <span>{formatStarName(s.name)}</span>
                 {s.brightness && (
-                  <span className={`ml-0.5 ${brightnessColor(s.brightness)}`}>{s.brightness}</span>
+                  <span className={`ml-0.5 ${brightnessColor(s.brightness)}`}>{formatBrightness(s.brightness)}</span>
                 )}
                 {s.siHua && (
-                  <span className={`ml-0.5 ${siHuaColor(s.siHua)}`}>{s.siHua}</span>
+                  <span className={`ml-0.5 ${siHuaColor(s.siHua)}`}>{formatSihua(s.siHua)}</span>
                 )}
               </div>
             ))
           ) : (
-            <div className="text-gray-400 dark:text-gray-500">(空宮)</div>
+            <div className="text-gray-400 dark:text-gray-500">공궁(空宮)</div>
           )}
         </div>
 
@@ -77,10 +86,10 @@ function PalaceCell({ palace, daxianRange }: { palace: ZiweiPalace; daxianRange?
         {(luckyStars.length > 0 || shaStars.length > 0) && (
           <div className="mt-1 pt-1 border-t border-dashed border-gray-200 dark:border-gray-700">
             {luckyStars.length > 0 && (
-              <div className="text-green-600 dark:text-green-400">{luckyStars.map(s => s.name).join(' ')}</div>
+              <div className="text-green-600 dark:text-green-400">{luckyStars.map(s => formatStarName(s.name)).join(' ')}</div>
             )}
             {shaStars.length > 0 && (
-              <div className="text-red-500 dark:text-red-400">{shaStars.map(s => s.name).join(' ')}</div>
+              <div className="text-red-500 dark:text-red-400">{shaStars.map(s => formatStarName(s.name)).join(' ')}</div>
             )}
           </div>
         )}
@@ -108,7 +117,7 @@ export default function MingPanGrid({ chart }: Props) {
   for (const dx of daxianList) {
     const palace = chart.palaces[dx.palaceName]
     if (palace) {
-      daxianByZhi.set(palace.zhi, `${dx.ageStart}-${dx.ageEnd}歲`)
+      daxianByZhi.set(palace.zhi, `${dx.ageStart}-${dx.ageEnd}세(歲)`)
     }
   }
 
@@ -142,34 +151,34 @@ export default function MingPanGrid({ chart }: Props) {
         >
           <div className="space-y-0.5 text-sm text-gray-600 dark:text-gray-300 w-full max-w-[200px]">
             <div>
-              <span className="text-gray-400 dark:text-gray-500">陽曆:</span>{' '}
-              {chart.solarYear}年 {chart.solarMonth}月 {chart.solarDay}日 {chart.hour}時 {chart.minute}分
+              <span className="text-gray-400 dark:text-gray-500">양력(陽曆):</span>{' '}
+              {chart.solarYear}년(年) {chart.solarMonth}월(月) {chart.solarDay}일(日) {chart.hour}시(時) {chart.minute}분(分)
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">陰曆:</span>{' '}
-              {chart.lunarYear}年 {chart.lunarMonth}月 {chart.lunarDay}日
-              {chart.isLeapMonth && <span className="text-orange-600 dark:text-orange-400 ml-1">(閏月)</span>}
+              <span className="text-gray-400 dark:text-gray-500">음력(陰曆):</span>{' '}
+              {chart.lunarYear}년(年) {chart.lunarMonth}월(月) {chart.lunarDay}일(日)
+              {chart.isLeapMonth && <span className="text-orange-600 dark:text-orange-400 ml-1">윤월(閏月)</span>}
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">性別:</span> {genderChar}
+              <span className="text-gray-400 dark:text-gray-500">성별(性別):</span> {genderChar}
             </div>
             <div className="pt-1">
-              <span className="text-gray-400 dark:text-gray-500">年柱:</span>{' '}
-              <span className="font-hanja">{chart.yearGan}{chart.yearZhi}</span>
+              <span className="text-gray-400 dark:text-gray-500">년주(年柱):</span>{' '}
+              <span>{formatGanzhi(`${chart.yearGan}${chart.yearZhi}`)}</span>
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">命宮:</span>{' '}
-              <span className="font-hanja">{chart.palaces['命宮']?.ganZhi}</span>
+              <span className="text-gray-400 dark:text-gray-500">명궁(命宮):</span>{' '}
+              <span>{formatGanzhi(chart.palaces['命宮']?.ganZhi ?? '')}</span>
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">身宮:</span>{' '}
-              {shenPalaceName} (<span className="font-hanja">{chart.shenGongZhi}</span>)
+              <span className="text-gray-400 dark:text-gray-500">신궁(身宮):</span>{' '}
+              {formatPalaceName(shenPalaceName)} ({formatZiweiLabel(chart.shenGongZhi)})
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">五行局:</span> {chart.wuXingJu.name}
+              <span className="text-gray-400 dark:text-gray-500">오행국(五行局):</span> {formatWuxingJu(chart.wuXingJu.name)}
             </div>
             <div>
-              <span className="text-gray-400 dark:text-gray-500">大限起始:</span> {chart.daXianStartAge}歲
+              <span className="text-gray-400 dark:text-gray-500">대한기시(大限起始):</span> {chart.daXianStartAge}세(歲)
             </div>
           </div>
         </div>

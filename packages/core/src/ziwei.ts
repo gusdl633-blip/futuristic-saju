@@ -11,12 +11,12 @@ import {
   HUO_XING_START, LING_XING_START, TIAN_MA_TABLE,
   ZIWEI_SERIES_OFFSETS, TIANFU_SERIES_OFFSETS,
   BRIGHTNESS_TABLE, WU_HU_DUN_GAN, CHANGSHENG_START,
-} from './constants.ts'
+} from './constants.js'
 import type {
   WuXingJu, ZiweiStar, ZiweiPalace, ZiweiChart,
   LiuYueInfo, LiuNianInfo,
-} from './types.ts'
-import { adjustKdtToKst } from './kdt.ts'
+} from './types.js'
+import { adjustKdtToKst } from './kdt.js'
 
 // =============================================
 // 유틸리티

@@ -1,4 +1,4 @@
-import type { Relation, Meteor, Spirit, Element, WuXingJu } from './types.ts';
+import type { Relation, Meteor, Spirit, Element, WuXingJu } from './types.js';
 
 // =============================================
 // 천간/지지 기본

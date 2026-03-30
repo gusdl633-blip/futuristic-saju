@@ -1,12 +1,12 @@
 /**
  * 외곽 별자리 링 — 12개 호형 세그먼트, 심볼, 눈금
  */
-import { ZODIAC_SIGNS, ZODIAC_SYMBOLS } from '@orrery/core/natal'
-import type { ZodiacSign } from '@orrery/core/types'
+import { ZODIAC_SIGNS, ZODIAC_SYMBOLS } from '../../../../packages/core/src/natal.js'
+import type { ZodiacSign } from '../../../../packages/core/src/types.js'
 import {
   CX, CY, R_OUTER, R_ZODIAC_INNER,
   lonToAngle, angleToPoint, arcPath,
-} from './geometry.ts'
+} from './geometry.js'
 
 /** 원소별 세그먼트 색상 */
 const ELEMENT_COLORS: Record<string, string> = {

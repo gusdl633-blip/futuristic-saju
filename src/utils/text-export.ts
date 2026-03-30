@@ -1,8 +1,8 @@
-import type { SajuResult, ZiweiChart, LiuNianInfo, NatalChart } from '@orrery/core/types'
-import { ELEMENT_HANJA, PILLAR_NAMES, PALACE_NAMES, MAIN_STAR_NAMES } from '@orrery/core/constants'
-import { getDaxianList } from '@orrery/core/ziwei'
-import { formatRelation, fmt2 } from './format.ts'
-import { ZODIAC_SYMBOLS, PLANET_SYMBOLS, ASPECT_SYMBOLS, ROMAN, formatDegree } from '@orrery/core/natal'
+import type { SajuResult, ZiweiChart, LiuNianInfo, NatalChart } from '../../packages/core/src/types.js'
+import { ELEMENT_HANJA, PILLAR_NAMES, PALACE_NAMES, MAIN_STAR_NAMES } from '../../packages/core/src/constants.js'
+import { getDaxianList } from '../../packages/core/src/ziwei.js'
+import { formatRelation, fmt2 } from './format.js'
+import { ZODIAC_SYMBOLS, PLANET_SYMBOLS, ASPECT_SYMBOLS, ROMAN, formatDegree } from '../../packages/core/src/natal.js'
 
 /** 사주 결과를 CLI 형식 텍스트로 변환 */
 export function sajuToText(result: SajuResult): string {

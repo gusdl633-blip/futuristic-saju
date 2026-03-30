@@ -1,5 +1,5 @@
-import type { NatalAspect } from '@orrery/core/types'
-import { PLANET_SYMBOLS, PLANET_KO, ASPECT_SYMBOLS } from '@orrery/core/natal'
+import type { NatalAspect } from '../../../packages/core/src/types.js'
+import { PLANET_SYMBOLS, PLANET_KO, ASPECT_SYMBOLS } from '../../../packages/core/src/natal.js'
 
 interface Props {
   aspects: NatalAspect[]

@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
-import { createChart } from '@orrery/core/ziwei'
-import MingPanGrid from './MingPanGrid.tsx'
-import SihuaSummary from './SihuaSummary.tsx'
-import DaxianTable from './DaxianTable.tsx'
-import LiunianView from './LiunianView.tsx'
-import CopyButton from '../CopyButton.tsx'
-import { ziweiToText } from '../../utils/text-export.ts'
-import type { BirthInput } from '@orrery/core/types'
+import { createChart } from '../../../packages/core/src/ziwei.js'
+import MingPanGrid from './MingPanGrid.js'
+import SihuaSummary from './SihuaSummary.js'
+import DaxianTable from './DaxianTable.js'
+import LiunianView from './LiunianView.js'
+import CopyButton from '../CopyButton.js'
+import { ziweiToText } from '../../utils/text-export.js'
+import type { BirthInput } from '../../../packages/core/src/types.js'
 
 interface Props {
   input: BirthInput
@@ -33,10 +33,10 @@ export default function ZiweiView({ input }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* 命盤 그리드 (기본 정보 + 12궁) */}
+      {/* 명반(命盤) 그리드 (기본 정보 + 12궁) */}
       <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
         <div className="flex items-center gap-2 mb-3">
-          <h2 className="text-base font-medium text-gray-700 dark:text-gray-200">紫微斗數 命盤</h2>
+          <h2 className="text-base font-medium text-gray-700 dark:text-gray-200">자미두수 명반(紫微斗數 命盤)</h2>
           <CopyButton getText={() => ziweiToText(chart)} label="AI 해석용 복사" />
         </div>
         <MingPanGrid chart={chart} />

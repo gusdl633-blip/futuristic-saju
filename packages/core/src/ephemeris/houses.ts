@@ -12,10 +12,10 @@
  * AGPL-licensed — see Swiss Ephemeris license terms.
  */
 
-import { degnorm, DEG_TO_RAD, RAD_TO_DEG } from './math'
-import { calcObliquity } from './obliquity'
-import { calcNutation } from './nutation'
-import { deltaT } from './deltat'
+import { degnorm, DEG_TO_RAD, RAD_TO_DEG } from './math.js'
+import { calcObliquity } from './obliquity.js'
+import { calcNutation } from './nutation.js'
+import { deltaT } from './deltat.js'
 
 // ---------------------------------------------------------------------------
 // Types

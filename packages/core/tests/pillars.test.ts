@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { getFourPillars } from '../src/pillars.ts'
-import { adjustKdtToKst } from '../src/kdt.ts'
-import { PILLAR_FIXTURES } from './fixtures.ts'
+import { getFourPillars } from '../src/pillars.js'
+import { adjustKdtToKst } from '../src/kdt.js'
+import { PILLAR_FIXTURES } from './fixtures.js'
 
 describe('getFourPillars', () => {
   for (const fixture of PILLAR_FIXTURES) {

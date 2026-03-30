@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
-import type { DaewoonItem } from '@orrery/core/types'
-import { stemColorClass, branchColorClass, stemSolidBgClass, branchSolidBgClass } from '../../utils/format.ts'
+import type { DaewoonItem } from '../../../packages/core/src/types.js'
+import { stemColorClass, branchColorClass, stemSolidBgClass, branchSolidBgClass } from '../../utils/format.js'
+import { formatGan, formatJi, sipsinToKorean, unseongToKorean, sinsalToKorean } from '../../utils/sajuDisplay.js'
 
 interface Props {
   daewoon: DaewoonItem[]
@@ -22,8 +23,8 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
   if (daewoon.length === 0) {
     return (
       <section>
-        <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2 font-hanja">大運</h3>
-        <p className="text-sm text-[var(--text-muted)]">대운 데이터가 없습니다.</p>
+        <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2">대운(大運)</h3>
+        <p className="text-sm text-[var(--text-muted)]">표시할 내용이 없다. 새로운 결과가 생기면 여기에 표시된다.</p>
       </section>
     )
   }
@@ -42,14 +43,14 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
 
   return (
     <section>
-      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2 font-hanja">大運</h3>
+      <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2">대운(大運)</h3>
       {unknownTime && (
         <p className="text-xs text-[var(--neon-cyan)] mb-3 leading-relaxed border-l-2 border-[var(--neon-cyan-muted)] pl-3">
           출생 시각을 모를 때는 정오(12:00) 기준이라 대운 시작 시기에 수개월 오차가 있을 수 있습니다.
         </p>
       )}
       <div ref={scrollRef} className="overflow-x-auto py-1 -mx-1">
-        <div className="flex flex-row-reverse gap-2 w-fit font-hanja px-1">
+        <div className="flex flex-row-reverse gap-2 w-fit px-1">
           {daewoon.map((dw, i) => {
             const isActive = i === activeIdx
             const stem = dw.ganzi[0]
@@ -65,16 +66,16 @@ export default function DaewoonTable({ daewoon, unknownTime }: Props) {
                 }`}
               >
                 <span className="text-xs text-[var(--text-muted)]">{dw.age}세</span>
-                <span className={`text-sm ${stemColorClass(stem)}`}>{dw.stemSipsin}</span>
+                <span className={`text-sm ${stemColorClass(stem)}`}>{sipsinToKorean(dw.stemSipsin)}</span>
                 <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded-lg pb-[2px] ${stemSolidBgClass(stem)}`}>
-                  {stem}
+                  {formatGan(stem)}
                 </span>
                 <span className={`inline-flex items-center justify-center w-8 h-8 leading-none text-base rounded-lg pb-[2px] ${branchSolidBgClass(branch)}`}>
-                  {branch}
+                  {formatJi(branch)}
                 </span>
-                <span className={`text-sm ${branchColorClass(branch)}`}>{dw.branchSipsin}</span>
-                <span className="text-xs text-[var(--text-muted)]">{dw.unseong}</span>
-                <span className="text-xs text-[var(--text-muted)]">{dw.sinsal}</span>
+                <span className={`text-sm ${branchColorClass(branch)}`}>{sipsinToKorean(dw.branchSipsin)}</span>
+                <span className="text-xs text-[var(--text-muted)]">{unseongToKorean(dw.unseong)}</span>
+                <span className="text-xs text-[var(--text-muted)]">{sinsalToKorean(dw.sinsal)}</span>
               </div>
             )
           })}

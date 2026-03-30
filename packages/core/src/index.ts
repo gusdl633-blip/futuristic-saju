@@ -1,8 +1,8 @@
 // 사주 (四柱八字)
-export { calculateSaju } from './saju.ts'
+export { calculateSaju } from './saju.js'
 
 // 자미두수 (紫微斗數)
-export { createChart, calculateLiunian, getDaxianList } from './ziwei.ts'
+export { createChart, calculateLiunian, getDaxianList } from './ziwei.js'
 
 // 서양 점성술 (Natal Chart)
 export {
@@ -11,7 +11,7 @@ export {
   ZODIAC_SIGNS, ZODIAC_SYMBOLS, ZODIAC_KO,
   PLANET_SYMBOLS, PLANET_KO, ASPECT_SYMBOLS,
   ROMAN, HOUSE_SYSTEMS,
-} from './natal.ts'
+} from './natal.js'
 
 // 사주 저수준 API
 export {
@@ -22,7 +22,7 @@ export {
   checkTripleCompose, checkDirectionalCompose,
   getSpecialSals, findTransits, calculateJwabeop, calculateInjongbeop,
   calcPillarIndices, calcSolarTerms,
-} from './pillars.ts'
+} from './pillars.js'
 
 // 상수/심볼
 export {
@@ -32,14 +32,14 @@ export {
   PILLAR_NAMES, HGANJI, JIJANGGAN, METEOR_LOOKUP,
   TIAN_GAN, DI_ZHI, PALACE_NAMES,
   MAIN_STAR_NAMES, LUCKY_STAR_NAMES, SHA_STAR_NAMES,
-} from './constants.ts'
+} from './constants.js'
 
 // 도시 데이터
 export {
   KOREAN_CITIES, WORLD_CITIES, SEOUL,
   filterCities, formatCityName,
-} from './cities.ts'
-export type { City } from './cities.ts'
+} from './cities.js'
+export type { City } from './cities.js'
 
 // 타입
 export type {
@@ -53,4 +53,4 @@ export type {
   LiuYueInfo, LiuNianInfo,
   ZodiacSign, PlanetId, PlanetPosition,
   NatalHouse, NatalAngles, AspectType, NatalAspect, NatalChart,
-} from './types.ts'
+} from './types.js'

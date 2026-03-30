@@ -19,8 +19,8 @@ const title = Buffer.from(`
     .title { fill: #f1f5f9; font-size: 52px; font-weight: 700; font-family: sans-serif; }
     .subtitle { fill: #94a3b8; font-size: 28px; font-weight: 400; font-family: sans-serif; }
   </style>
-  <text x="${WIDTH / 2}" y="${HEIGHT / 2 + ICON_SIZE / 2 + 50}" text-anchor="middle" class="title">혼천의(渾天儀)</text>
-  <text x="${WIDTH / 2}" y="${HEIGHT / 2 + ICON_SIZE / 2 + 90}" text-anchor="middle" class="subtitle">사주팔자 · 자미두수 계산기</text>
+  <text x="${WIDTH / 2}" y="${HEIGHT / 2 + ICON_SIZE / 2 + 50}" text-anchor="middle" class="title">천명(天命)</text>
+  <text x="${WIDTH / 2}" y="${HEIGHT / 2 + ICON_SIZE / 2 + 90}" text-anchor="middle" class="subtitle">운명의 흐름을 해석하다</text>
 </svg>
 `)
 

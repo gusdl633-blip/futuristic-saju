@@ -7,23 +7,23 @@
  * AGPL-licensed — see Swiss Ephemeris license terms.
  */
 
-import { julday as _julday, revjul as _revjul } from './julian.ts'
-import { deltaT } from './deltat.ts'
-import { calcObliquity } from './obliquity.ts'
-import { calcNutation } from './nutation.ts'
-import { precess } from './precession.ts'
-import { cartpol, coortrf2, degnorm, RAD_TO_DEG } from './math.ts'
-import { moshplan } from './planets.ts'
-import type { PlanetTable } from './tables/planet-coefficients.ts'
+import { julday as _julday, revjul as _revjul } from './julian.js'
+import { deltaT } from './deltat.js'
+import { calcObliquity } from './obliquity.js'
+import { calcNutation } from './nutation.js'
+import { precess } from './precession.js'
+import { cartpol, coortrf2, degnorm, RAD_TO_DEG } from './math.js'
+import { moshplan } from './planets.js'
+import type { PlanetTable } from './tables/planet-coefficients.js'
 import {
   mer404, ven404, ear404, mar404, jup404,
   sat404, ura404, nep404, plu404,
-} from './tables/planet-coefficients.ts'
-import { calcMoon } from './moon.ts'
-import { calcMeanNodeFull } from './node.ts'
-import { calcChiron } from './chiron.ts'
-export { calcHouses } from './houses.ts'
-export type { HousesResult } from './houses.ts'
+} from './tables/planet-coefficients.js'
+import { calcMoon } from './moon.js'
+import { calcMeanNodeFull } from './node.js'
+import { calcChiron } from './chiron.js'
+export { calcHouses } from './houses.js'
+export type { HousesResult } from './houses.js'
 
 // ── Planet tables (ordered by Moshier index) ────────────────────────────
 

@@ -1,12 +1,12 @@
 /**
  * 행성 심볼 배치 — 클러스터링, tick mark, 역행 표시
  */
-import { PLANET_SYMBOLS } from '@orrery/core/natal'
-import type { PlanetId, PlanetPosition } from '@orrery/core/types'
+import { PLANET_SYMBOLS } from '../../../../packages/core/src/natal.js'
+import type { PlanetId, PlanetPosition } from '../../../../packages/core/src/types.js'
 import {
   R_ZODIAC_INNER, R_PLANET,
   angleToPoint, spreadPlanets,
-} from './geometry.ts'
+} from './geometry.js'
 
 interface Props {
   planets: PlanetPosition[]

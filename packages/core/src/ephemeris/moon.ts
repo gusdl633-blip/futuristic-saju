@@ -12,10 +12,10 @@
  * AGPL-licensed — see Swiss Ephemeris license terms.
  */
 
-import { polcart, coortrf2 } from './math.ts'
-import { precess } from './precession.ts'
-import { calcObliquity } from './obliquity.ts'
-import { deltaT } from './deltat.ts'
+import { polcart, coortrf2 } from './math.js'
+import { precess } from './precession.js'
+import { calcObliquity } from './obliquity.js'
+import { deltaT } from './deltat.js'
 import {
   STR,
   MOON_SPEED_INTV,
@@ -27,7 +27,7 @@ import {
   NBT, BT,
   NLRT2, LRT2,
   NBT2, BT2,
-} from './tables/moon-coefficients.ts'
+} from './tables/moon-coefficients.js'
 
 const J2000 = 2451545.0
 const AUNIT = 1.49597870700e+11 // meters

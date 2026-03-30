@@ -3,8 +3,8 @@
  *
  * 실행: bun packages/core/examples/ziwei.ts
  */
-import { createChart, getDaxianList, calculateLiunian } from '../src/ziwei.ts'
-import { PALACE_NAMES, MAIN_STAR_NAMES } from '../src/constants.ts'
+import { createChart, getDaxianList, calculateLiunian } from '../src/ziwei.js'
+import { PALACE_NAMES, MAIN_STAR_NAMES } from '../src/constants.js'
 
 const year = 1993
 const month = 3

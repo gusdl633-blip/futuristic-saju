@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { createChart } from '../src/ziwei.ts'
-import { ZIWEI_FIXTURES } from './fixtures.ts'
+import { createChart } from '../src/ziwei.js'
+import { ZIWEI_FIXTURES } from './fixtures.js'
 
 describe('createChart', () => {
   for (const fixture of ZIWEI_FIXTURES) {

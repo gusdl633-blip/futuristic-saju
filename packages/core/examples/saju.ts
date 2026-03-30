@@ -3,9 +3,9 @@
  *
  * 실행: bun packages/core/examples/saju.ts
  */
-import { calculateSaju } from '../src/saju.ts'
-import { PILLAR_NAMES, ELEMENT_HANJA } from '../src/constants.ts'
-import type { BirthInput } from '../src/types.ts'
+import { calculateSaju } from '../src/saju.js'
+import { PILLAR_NAMES, ELEMENT_HANJA } from '../src/constants.js'
+import type { BirthInput } from '../src/types.js'
 
 const input: BirthInput = {
   year: 1993,

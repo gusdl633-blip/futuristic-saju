@@ -1,10 +1,9 @@
 import { useState, useMemo, useEffect, useImperativeHandle, forwardRef } from 'react'
-import type { BirthInput, Gender, JasiMethod } from '@orrery/core/types'
-import { isKoreanDaylightTime } from '@orrery/core/natal'
-import type { City } from '@orrery/core/cities'
-import { SEOUL } from '@orrery/core/cities'
-import CityCombobox from './CityCombobox.tsx'
-import logo from '../assets/icon-512.png'
+import type { BirthInput, Gender, JasiMethod } from '../../packages/core/src/types.js'
+import { isKoreanDaylightTime } from '../../packages/core/src/natal.js'
+import type { City } from '../../packages/core/src/cities.js'
+import { SEOUL } from '../../packages/core/src/cities.js'
+import CityCombobox from './CityCombobox.js'
 
 export interface BirthFormHandle {
   getCurrentState(): SavedFormState
@@ -48,10 +47,8 @@ const currentYear = now.getFullYear()
 const saved = loadSaved()
 
 const fieldClass =
-  'w-full h-10 pl-3 pr-8 rounded-xl text-base text-[var(--text-primary)] bg-[var(--surface-elevated)]/80 ' +
-  'border border-[var(--border-glow)] appearance-none bg-[length:16px_16px] bg-[position:right_8px_center] bg-no-repeat ' +
-  "bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22%235ce1e6%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20d%3D%22M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E')] " +
-  'focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] ' +
+  'input-neon w-full h-10 pl-3 pr-8 text-base appearance-none bg-[length:16px_16px] bg-[position:right_8px_center] bg-no-repeat ' +
+  "bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22%233b82f6%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20d%3D%22M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E')] " +
   'transition-all disabled:opacity-40 disabled:cursor-not-allowed'
 
 const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubmit, externalState, onExternalStateConsumed }, ref) {
@@ -138,25 +135,9 @@ const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubm
   return (
     <form
       onSubmit={handleSubmit}
-      className="panel-neon p-5 sm:p-6 border-[var(--border-glow)]"
+      className="panel-neon p-5 sm:p-6"
     >
-      <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
-        <div className="flex flex-col items-center shrink-0">
-          <div className="relative">
-            <div
-              className="absolute inset-0 rounded-2xl blur-xl opacity-40 bg-[var(--neon-primary)] pointer-events-none"
-              aria-hidden
-            />
-            <img
-              src={logo}
-              alt="혼천의"
-              className="relative w-40 sm:w-48 md:w-56 drop-shadow-[0_0_20px_rgba(61,255,156,0.25)]"
-            />
-          </div>
-          <span className="text-sm text-[var(--neon-cyan)] font-hanja mt-2 tracking-wide">渾天儀</span>
-        </div>
-
-        <div className="w-full min-w-0 space-y-4">
+      <div className="w-full min-w-0 space-y-4">
           <fieldset>
             <legend className="text-xs font-medium tracking-wider uppercase text-[var(--neon-cyan-muted)] mb-2 block">
               생년월일 (양력)
@@ -183,7 +164,7 @@ const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubm
 
           {isKDT && (
             <div className="px-3 py-2.5 rounded-xl border border-[var(--neon-cyan-muted)] bg-[var(--neon-primary-dim)] text-sm text-[var(--text-secondary)] leading-relaxed">
-              88올림픽 하계표준시(KDT, UTC+10) 구간입니다. 계산에 자동 반영됩니다.
+              88올림픽 하계표준시(KDT, UTC+10) 구간입니다. 흐름 해석에 자동 반영됩니다.
             </div>
           )}
 
@@ -268,7 +249,7 @@ const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubm
                     step="0.0001"
                     value={latitude}
                     onChange={e => setLatitude(Number(e.target.value))}
-                    className="w-full h-10 px-3 rounded-xl border border-[var(--border-glow)] bg-[var(--surface-elevated)]/80 text-[var(--text-primary)] focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] transition-all"
+                    className="input-neon w-full h-10 px-3 transition-all"
                   />
                 </div>
                 <div>
@@ -278,7 +259,7 @@ const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubm
                     step="0.0001"
                     value={longitude}
                     onChange={e => setLongitude(Number(e.target.value))}
-                    className="w-full h-10 px-3 rounded-xl border border-[var(--border-glow)] bg-[var(--surface-elevated)]/80 text-[var(--text-primary)] focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] transition-all"
+                    className="input-neon w-full h-10 px-3 transition-all"
                   />
                 </div>
               </div>
@@ -339,15 +320,14 @@ const BirthForm = forwardRef<BirthFormHandle, Props>(function BirthForm({ onSubm
 
           <button
             type="submit"
-            className="mt-2 w-full h-12 rounded-xl font-semibold text-[#030712] bg-[var(--neon-primary)] hover:brightness-110 shadow-[0_0_28px_rgba(61,255,156,0.35)] active:scale-[0.99] transition-all"
+            className="primary-button mt-2 w-full h-12 text-base font-semibold active:scale-[0.99]"
           >
-            명식 계산
+            명식 열기
           </button>
 
           <p className="text-center text-xs text-[var(--text-muted)] leading-relaxed">
-            계산은 기기 안에서만 이루어지며, 입력 정보는 서버로 전송되지 않습니다.
+            처리는 기기 안에서만 이루어지며, 입력 정보는 서버로 전송되지 않습니다.
           </p>
-        </div>
       </div>
     </form>
   )

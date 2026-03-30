@@ -11,7 +11,7 @@
 import {
   CHIRON_JD_START, CHIRON_JD_STEP, CHIRON_N,
   CHIRON_LON, CHIRON_SPEED,
-} from './tables/chiron-data.ts'
+} from './tables/chiron-data.js'
 
 /**
  * Normalize angle to [0, 360)

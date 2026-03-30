@@ -1,8 +1,8 @@
 /**
  * 애스펙트 연결선 — 내원 안에 표시
  */
-import type { NatalAspect, PlanetPosition, AspectType } from '@orrery/core/types'
-import { R_INNER, lonToPoint } from './geometry.ts'
+import type { NatalAspect, PlanetPosition, AspectType } from '../../../../packages/core/src/types.js'
+import { R_INNER, lonToPoint } from './geometry.js'
 
 /** 애스펙트 타입별 색상 */
 const ASPECT_COLORS: Record<AspectType, string> = {

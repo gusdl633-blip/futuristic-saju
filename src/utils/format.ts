@@ -1,5 +1,5 @@
-import { STEM_INFO, BRANCH_ELEMENT, ELEMENT_HANJA } from '@orrery/core/constants'
-import type { Element, RelationResult } from '@orrery/core/types'
+import { STEM_INFO, BRANCH_ELEMENT, ELEMENT_HANJA } from '../../packages/core/src/constants.js'
+import type { Element, RelationResult } from '../../packages/core/src/types.js'
 
 /** 천간의 오행 반환 */
 export function stemElement(stem: string): Element | undefined {

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import type { SavedFormState } from './BirthForm.tsx'
-import { loadProfiles, addProfile, updateProfile, deleteProfile, exportProfiles, importProfiles } from '../utils/profiles.ts'
-import type { Profile } from '../utils/profiles.ts'
-import { getFourPillars, toHangul } from '@orrery/core/pillars'
+import type { SavedFormState } from './BirthForm.js'
+import { loadProfiles, addProfile, updateProfile, deleteProfile, exportProfiles, importProfiles } from '../utils/profiles.js'
+import type { Profile } from '../utils/profiles.js'
+import { getFourPillars, toHangul } from '../../packages/core/src/pillars.js'
 
 interface Props {
   open: boolean
@@ -144,10 +144,7 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
     if (e.target === dialogRef.current) onClose()
   }
 
-  const inputClass =
-    'h-9 px-3 rounded-xl text-sm text-[var(--text-primary)] ' +
-    'bg-[var(--surface-deep)] border border-[var(--border-glow)] ' +
-    'focus:outline-none focus:border-[var(--neon-primary-muted)] focus:shadow-[var(--shadow-glow-soft)] transition-all'
+  const inputClass = 'input-neon h-9 px-3 text-sm transition-all'
 
   const btnPrimary =
     'px-2.5 py-1 text-sm rounded-lg border transition-all border-[var(--neon-primary-muted)] bg-[var(--neon-primary-dim)] text-[var(--neon-primary)] hover:shadow-[var(--shadow-glow-soft)]'
@@ -159,7 +156,7 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
       ref={dialogRef}
       onClick={handleDialogClick}
       onCancel={onClose}
-      className="m-auto rounded-2xl p-5 shadow-[var(--shadow-glow-soft)] w-[min(28rem,calc(100vw-2rem))] overflow-hidden"
+      className="m-auto p-5 w-[min(28rem,calc(100vw-2rem))] overflow-hidden max-w-[calc(100vw-2rem)]"
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-[var(--text-primary)]">프로필 관리</h2>
@@ -197,7 +194,7 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
             type="text"
             value={newName}
             onChange={e => setNewName(e.target.value)}
-            placeholder="별칭 입력"
+            placeholder="이름을 입력한다"
             className={`${inputClass} flex-1`}
           />
           <button type="submit" disabled={!newName.trim()} className={`${btnPrimary} disabled:opacity-40`}>
@@ -229,7 +226,7 @@ export default function ProfileModal({ open, onClose, getCurrentFormState, onSel
       <div className="max-h-[60vh] overflow-y-auto">
         {profiles.length === 0 ? (
           <p className="text-center text-sm text-[var(--text-muted)] py-6">
-            저장된 프로필이 없습니다.
+            표시할 내용이 없다. 새로운 결과가 생기면 여기에 표시된다.
           </p>
         ) : (
           <div className="space-y-0 divide-y divide-[var(--border-subtle)]">

@@ -2,26 +2,33 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* —— Design system: premium black + neon (saju UI) —— */
+/* —— Premium neon glass (navy + blue/purple) —— */
 :root {
-  --surface-deep: #030712;
-  --surface-base: #070d1a;
-  --surface-elevated: #0c1526;
-  --text-primary: #e8f4f0;
-  --text-secondary: #a8b9c4;
-  --text-muted: #6b7c8c;
+  --bg-primary: #0b0f1a;
+  --bg-secondary: #141111;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
 
-  --neon-primary: #3dff9c;
-  --neon-primary-muted: rgba(61, 255, 156, 0.45);
-  --neon-primary-dim: rgba(61, 255, 156, 0.08);
-  --neon-cyan: #5ce1e6;
-  --neon-cyan-muted: rgba(92, 225, 230, 0.35);
-
-  --border-glow: rgba(61, 255, 156, 0.22);
-  --border-subtle: rgba(92, 225, 230, 0.12);
-  --glass-bg: rgba(12, 21, 38, 0.55);
-  --shadow-glow-soft: 0 0 24px rgba(61, 255, 156, 0.12);
-  --shadow-glow-cyan: 0 0 20px rgba(92, 225, 230, 0.1);
+  /* 컴포넌트 전역에서 쓰는 기존 토큰명 → 동일 톤으로 매핑 */
+  --surface-deep: var(--bg-primary);
+  --surface-base: #0e1424;
+  --surface-elevated: #121a2e;
+  --neon-primary: var(--accent-blue);
+  --neon-primary-muted: rgba(59, 130, 246, 0.45);
+  --neon-primary-dim: rgba(59, 130, 246, 0.14);
+  --neon-cyan: var(--accent-purple);
+  --neon-cyan-muted: rgba(139, 92, 246, 0.42);
+  --border-glow: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --glass-bg: var(--card-bg);
+  --shadow-glow-soft:
+    0 0 40px rgba(59, 130, 246, 0.15),
+    0 0 72px rgba(139, 92, 246, 0.1);
+  --shadow-glow-cyan: 0 0 28px rgba(139, 92, 246, 0.22);
 
   /* 오행 (다크 UI 대비) */
   --color-tree: #4ade80;
@@ -40,22 +47,28 @@
 }
 
 html:not(.dark) {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --card-bg: rgba(255, 255, 255, 0.78);
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
   --surface-deep: #f1f5f9;
   --surface-base: #f8fafc;
   --surface-elevated: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --neon-primary: #059669;
-  --neon-primary-muted: rgba(5, 150, 105, 0.4);
-  --neon-primary-dim: rgba(5, 150, 105, 0.08);
-  --neon-cyan: #0891b2;
-  --neon-cyan-muted: rgba(8, 145, 178, 0.35);
-  --border-glow: rgba(5, 150, 105, 0.2);
-  --border-subtle: rgba(8, 145, 178, 0.15);
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --shadow-glow-soft: 0 0 20px rgba(5, 150, 105, 0.08);
-  --shadow-glow-cyan: 0 0 16px rgba(8, 145, 178, 0.08);
+  --neon-primary: var(--accent-blue);
+  --neon-primary-muted: rgba(37, 99, 235, 0.35);
+  --neon-primary-dim: rgba(37, 99, 235, 0.1);
+  --neon-cyan: var(--accent-purple);
+  --neon-cyan-muted: rgba(124, 58, 237, 0.32);
+  --border-glow: rgba(15, 23, 42, 0.1);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --shadow-glow-soft: 0 0 24px rgba(37, 99, 235, 0.12);
+  --shadow-glow-cyan: 0 0 20px rgba(124, 58, 237, 0.12);
 
   --color-tree: #16a34a;
   --color-fire: #dc2626;
@@ -82,8 +95,13 @@ html:not(.dark) {
   --wheel-segment-stroke-opacity: 0.45;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  min-height: 100vh;
   font-family:
     'Pretendard Variable', Pretendard,
     'Noto Sans KR',
@@ -91,7 +109,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--surface-deep);
+  color: var(--text-primary);
+}
+
+html.dark body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15), transparent 40%),
+    #0b0f1a;
+  color: #e5e7eb;
+}
+
+html:not(.dark) body {
+  background: var(--surface-deep);
   color: var(--text-primary);
 }
 
@@ -114,33 +144,145 @@ body {
 .bg-el-metal { background-color: color-mix(in srgb, var(--color-metal) 18%, transparent); }
 .bg-el-water { background-color: color-mix(in srgb, var(--color-water) 18%, transparent); }
 
-.bg-el-solid-tree  { background-color: var(--color-tree); color: #030712; }
+.bg-el-solid-tree  { background-color: var(--color-tree); color: #0b0f1a; }
 .bg-el-solid-fire  { background-color: var(--color-fire); color: #fff; }
-.bg-el-solid-earth { background-color: var(--color-earth); color: #030712; }
-.bg-el-solid-metal { background-color: #cbd5e1; color: #030712; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); }
-.bg-el-solid-water { background-color: var(--color-water); color: #030712; }
+.bg-el-solid-earth { background-color: var(--color-earth); color: #0b0f1a; }
+.bg-el-solid-metal { background-color: #cbd5e1; color: #0b0f1a; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); }
+.bg-el-solid-water { background-color: var(--color-water); color: #0b0f1a; }
 
-.dark .bg-el-solid-metal { background-color: #94a3b8; color: #030712; }
+.dark .bg-el-solid-metal { background-color: #94a3b8; color: #0b0f1a; }
 
-/* Panels */
+/* 글래스 카드 (패널·결과 영역 공통) */
+.card,
 .panel-neon {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border-glow);
-  border-radius: 1rem;
-  box-shadow: var(--shadow-glow-soft);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 40px rgba(59, 130, 246, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+}
+
+html:not(.dark) .card,
+html:not(.dark) .panel-neon {
+  background: var(--card-bg);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow:
+    0 0 32px rgba(37, 99, 235, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 네온 주요 버튼 */
+.primary-button {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.5),
+    0 0 40px rgba(139, 92, 246, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.primary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 30px rgba(59, 130, 246, 0.7),
+    0 0 60px rgba(139, 92, 246, 0.5);
+  filter: brightness(1.05);
+}
+
+.primary-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+html:not(.dark) .primary-button {
+  box-shadow:
+    0 0 16px rgba(37, 99, 235, 0.35),
+    0 0 28px rgba(124, 58, 237, 0.2);
+}
+
+/* 탭 필 */
+.tab {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+html:not(.dark) .tab {
+  background: rgba(15, 23, 42, 0.04);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+html:not(.dark) .tab.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.18));
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.25);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+/* 폼 필드 (다크 기준) */
+html.dark .input-neon,
+html.dark select.input-neon {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #fff;
+}
+
+html:not(.dark) .input-neon,
+html:not(.dark) select.input-neon {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+
+.input-neon:focus,
+select.input-neon:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+html:not(.dark) .input-neon:focus,
+html:not(.dark) select.input-neon:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 /* Dialog */
 dialog::backdrop {
-  background: rgba(2, 6, 15, 0.75);
-  backdrop-filter: blur(4px);
+  background: rgba(5, 10, 24, 0.72);
+  backdrop-filter: blur(6px);
 }
 dialog[open] {
   border: none;
-  background: var(--surface-elevated);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   color: var(--text-primary);
-  border: 1px solid var(--border-glow);
-  box-shadow: var(--shadow-glow-soft), var(--shadow-glow-cyan);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 48px rgba(59, 130, 246, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+}
+
+html:not(.dark) dialog[open] {
+  background: var(--surface-elevated);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: var(--shadow-glow-soft);
 }

@@ -7,10 +7,10 @@
 import type {
   BirthInput, ZodiacSign, PlanetId, PlanetPosition,
   NatalHouse, NatalAngles, AspectType, NatalAspect, NatalChart,
-} from './types.ts'
-import { julday, calcPlanet, calcHouses } from './ephemeris/index.ts'
+} from './types.js'
+import { julday, calcPlanet, calcHouses } from './ephemeris/index.js'
 
-export { isKoreanDaylightTime } from './kdt.ts'
+export { isKoreanDaylightTime } from './kdt.js'
 
 // =============================================
 // 상수

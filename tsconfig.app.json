@@ -4,7 +4,6 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
 
@@ -15,7 +14,8 @@
       "@orrery/core/*": ["./packages/core/src/*"]
     },
 
-    /* Bundler mode */
+    /* Bundler: Vite 호환. 상대 import는 .js 확장자(소스는 .ts로 해석). */
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -31,5 +31,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "api"]
 }
